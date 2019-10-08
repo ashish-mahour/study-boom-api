@@ -53,5 +53,10 @@
 	</dependencies>
 	<modules>
 		<module>study-boom-discovery-server</module>
+		<module>study-boom-gateway</module>
+		<module>study-boom-authentication</module>
+		<module>study-boom-admin</module>
+		<module>study-boom-publisher</module>
+		<module>study-boom-student</module>
 	</modules>
 </project>

@@ -9,9 +9,9 @@
 		<version>2.1.0.RELEASE</version>
 		<relativePath />
 	</parent>
-	<artifactId>study-boom-gateway</artifactId>
+	<artifactId>study-boom-authentication</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>study-boom-gateway</name>
+	<name>study-boom-authentication</name>
 	<description>Application for minor projects IGNOU..</description>
 	<packaging>jar</packaging>
 
@@ -20,10 +20,15 @@
 	</properties>
 
 	<dependencies>
-	<dependency>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-devtools</artifactId>
-	</dependency>
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+		</dependency>
 	</dependencies>
 
 	<build>
