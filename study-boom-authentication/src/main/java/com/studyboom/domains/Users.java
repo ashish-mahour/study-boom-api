@@ -13,6 +13,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "users")
 public class Users {
@@ -49,6 +51,7 @@ public class Users {
 	private Publisher userIdToPublisher;
 
 	@OneToMany(fetch = FetchType.LAZY, targetEntity = Requests.class, mappedBy = "userIdToPublisher")
+	@JsonIgnore
 	private Set<Requests> userIdToRequests = new TreeSet<Requests>();
 
 	public Users() {

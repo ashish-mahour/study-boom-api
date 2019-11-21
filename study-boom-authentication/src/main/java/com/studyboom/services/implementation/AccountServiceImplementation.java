@@ -178,10 +178,20 @@ public class AccountServiceImplementation implements AccountService {
 		/*
 		 * PASSWORD CHANGED
 		 */
+		
 		users.setPassword(changePasswordDTO.getNewPassword());
 
 		return new ResponseEntity<AccountStatusDTO>(
 				new AccountStatusDTO(Constants.STATUS_OK, "Password Changed!!", users.getId()), HttpStatus.OK);
+	}
+
+	@Override
+	public ResponseEntity<Users> getUser(Long id) {
+		Optional<Users> usersOptional = userRepository.findById(id);
+		if (usersOptional.isPresent())
+			return new ResponseEntity<>(usersOptional.get(), HttpStatus.OK);
+		else
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
 
 }
