@@ -36,7 +36,7 @@ public class SubjectSubCategory {
 	@OneToMany(fetch = FetchType.LAZY, targetEntity = TestSeriesData.class, mappedBy = "subjectSubCategoryIdToTestSeriesData")
 	private Set<TestSeriesData> subjectSubCategoryIdToTestSeriesData = new TreeSet<TestSeriesData>();
 
-	@OneToOne(fetch = FetchType.LAZY, targetEntity = TestSeriesData.class, mappedBy = "subjectSubCategoryIdToChoosenSubCategories")
+	@OneToOne(fetch = FetchType.LAZY, targetEntity = StudentChoosenSubjectSubCategory.class, mappedBy = "subjectSubCategoryIdToChoosenSubCategories")
 	private StudentChoosenSubjectSubCategory subjectSubCategoryIdToChoosenSubCategories;
 
 	public SubjectSubCategory() {

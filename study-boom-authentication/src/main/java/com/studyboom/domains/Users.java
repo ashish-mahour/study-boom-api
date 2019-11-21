@@ -50,7 +50,7 @@ public class Users {
 	@OneToOne(fetch = FetchType.LAZY, targetEntity = Publisher.class, mappedBy = "userIdToPublisher")
 	private Publisher userIdToPublisher;
 
-	@OneToMany(fetch = FetchType.LAZY, targetEntity = Requests.class, mappedBy = "userIdToPublisher")
+	@OneToMany(fetch = FetchType.LAZY, targetEntity = Requests.class, mappedBy = "userIdToRequests")
 	@JsonIgnore
 	private Set<Requests> userIdToRequests = new TreeSet<Requests>();
 
