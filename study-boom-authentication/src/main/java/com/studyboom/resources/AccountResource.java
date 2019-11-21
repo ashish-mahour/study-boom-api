@@ -17,7 +17,7 @@ import com.studyboom.dtos.UserDetailsDTO;
 import com.studyboom.services.AccountService;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("api")
 public class AccountResource {
 
 	@Autowired

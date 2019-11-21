@@ -178,7 +178,7 @@ public class AccountServiceImplementation implements AccountService {
 		/*
 		 * PASSWORD CHANGED
 		 */
-		
+
 		users.setPassword(changePasswordDTO.getNewPassword());
 
 		return new ResponseEntity<AccountStatusDTO>(
