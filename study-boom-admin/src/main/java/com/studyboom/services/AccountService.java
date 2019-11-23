@@ -13,7 +13,6 @@ import com.studyboom.domains.Publisher;
 import com.studyboom.domains.Student;
 import com.studyboom.domains.Users;
 import com.studyboom.dtos.AccountStatusDTO;
-import com.studyboom.dtos.ChangePasswordDTO;
 import com.studyboom.dtos.Constants;
 import com.studyboom.dtos.UserDetailsDTO;
 import com.studyboom.repositories.AdminRepository;
@@ -36,22 +35,6 @@ public class AccountService implements AccountResources {
 
 	@Autowired
 	private PublisherRepository publisherRepository;
-
-	@Override
-	public ResponseEntity<AccountStatusDTO> createAccount(UserDetailsDTO userDetailsDTO) {
-		Users users = userRepository.save(new Users(userDetailsDTO.getFullName(), userDetailsDTO.getUsername(),
-				userDetailsDTO.getEmail(), userDetailsDTO.getPassword(), userDetailsDTO.getType(), false));
-
-		if (userDetailsDTO.getType().equalsIgnoreCase(Constants.USER_TYPE.ADMIN.name()))
-			createAdmin(userDetailsDTO, users);
-		else if (userDetailsDTO.getType().equalsIgnoreCase(Constants.USER_TYPE.ADMIN.name()))
-			createStudent(userDetailsDTO, users);
-		else if (userDetailsDTO.getType().equalsIgnoreCase(Constants.USER_TYPE.ADMIN.name()))
-			createPublisher(userDetailsDTO, users);
-
-		return new ResponseEntity<AccountStatusDTO>(
-				new AccountStatusDTO(Constants.STATUS_OK, "User Created!!", users.getId()), HttpStatus.OK);
-	}
 
 	@Override
 	public ResponseEntity<AccountStatusDTO> modifyAccount(UserDetailsDTO userDetailsDTO) {
@@ -86,22 +69,6 @@ public class AccountService implements AccountResources {
 
 		return new ResponseEntity<AccountStatusDTO>(
 				new AccountStatusDTO(Constants.STATUS_OK, "User Updated!!", users.getId()), HttpStatus.OK);
-	}
-
-	private void createPublisher(UserDetailsDTO userDetailsDTO, Users users) {
-		publisherRepository.save(new Publisher(users, userDetailsDTO.getFullName(), userDetailsDTO.getUsername(),
-				userDetailsDTO.getEmail(), userDetailsDTO.getMobile(), userDetailsDTO.getBankName(),
-				userDetailsDTO.getAccountNo(), userDetailsDTO.getIfscCode(), LocalDateTime.now(), LocalDateTime.now()));
-	}
-
-	private void createStudent(UserDetailsDTO userDetailsDTO, Users users) {
-		studentRepository.save(new Student(users, userDetailsDTO.getFullName(), userDetailsDTO.getUsername(),
-				userDetailsDTO.getEmail(), userDetailsDTO.getMobile(), LocalDateTime.now(), LocalDateTime.now()));
-	}
-
-	private void createAdmin(UserDetailsDTO userDetailsDTO, Users users) {
-		adminRepository.save(new Admin(users, userDetailsDTO.getFullName(), userDetailsDTO.getUsername(),
-				userDetailsDTO.getEmail(), userDetailsDTO.getMobile(), LocalDateTime.now(), LocalDateTime.now()));
 	}
 
 	private boolean updatePublisher(UserDetailsDTO userDetailsDTO, Users users) {
@@ -160,29 +127,6 @@ public class AccountService implements AccountResources {
 		adminRepository.save(admin);
 
 		return true;
-	}
-
-	@Override
-	public ResponseEntity<AccountStatusDTO> changePassword(ChangePasswordDTO changePasswordDTO) {
-		Optional<Users> usersOptional = userRepository.findByEmail(changePasswordDTO.getEmail());
-		if (!usersOptional.isPresent())
-			return new ResponseEntity<AccountStatusDTO>(
-					new AccountStatusDTO(Constants.STATUS_FAILED, "No user found!!", null), HttpStatus.BAD_REQUEST);
-
-		Users users = usersOptional.get();
-		if (users.getPassword().equals(changePasswordDTO.getOldPassword()))
-			return new ResponseEntity<AccountStatusDTO>(
-					new AccountStatusDTO(Constants.STATUS_FAILED, "Old Password didn't match!!", users.getId()),
-					HttpStatus.BAD_REQUEST);
-
-		/*
-		 * PASSWORD CHANGED
-		 */
-
-		users.setPassword(changePasswordDTO.getNewPassword());
-
-		return new ResponseEntity<AccountStatusDTO>(
-				new AccountStatusDTO(Constants.STATUS_OK, "Password Changed!!", users.getId()), HttpStatus.OK);
 	}
 
 	@Override

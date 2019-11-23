@@ -18,9 +18,6 @@ import com.studyboom.dtos.UserDetailsDTO;
 @RequestMapping("api")
 public interface AccountResources {
 
-	@PostMapping(value = "/create/account", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<AccountStatusDTO> createAccount(@RequestBody UserDetailsDTO userDetailsDTO);
-
 	@PostMapping(value = "/modify/account", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<AccountStatusDTO> modifyAccount(@RequestBody UserDetailsDTO userDetailsDTO);
 

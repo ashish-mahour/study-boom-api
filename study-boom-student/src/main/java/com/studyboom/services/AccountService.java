@@ -38,22 +38,6 @@ public class AccountService implements AccountResources {
 	private PublisherRepository publisherRepository;
 
 	@Override
-	public ResponseEntity<AccountStatusDTO> createAccount(UserDetailsDTO userDetailsDTO) {
-		Users users = userRepository.save(new Users(userDetailsDTO.getFullName(), userDetailsDTO.getUsername(),
-				userDetailsDTO.getEmail(), userDetailsDTO.getPassword(), userDetailsDTO.getType(), false));
-
-		if (userDetailsDTO.getType().equalsIgnoreCase(Constants.USER_TYPE.ADMIN.name()))
-			createAdmin(userDetailsDTO, users);
-		else if (userDetailsDTO.getType().equalsIgnoreCase(Constants.USER_TYPE.ADMIN.name()))
-			createStudent(userDetailsDTO, users);
-		else if (userDetailsDTO.getType().equalsIgnoreCase(Constants.USER_TYPE.ADMIN.name()))
-			createPublisher(userDetailsDTO, users);
-
-		return new ResponseEntity<AccountStatusDTO>(
-				new AccountStatusDTO(Constants.STATUS_OK, "User Created!!", users.getId()), HttpStatus.OK);
-	}
-
-	@Override
 	public ResponseEntity<AccountStatusDTO> modifyAccount(UserDetailsDTO userDetailsDTO) {
 		Optional<Users> userOptional = userRepository.findById(userDetailsDTO.getId());
 		if (!userOptional.isPresent())
@@ -86,22 +70,6 @@ public class AccountService implements AccountResources {
 
 		return new ResponseEntity<AccountStatusDTO>(
 				new AccountStatusDTO(Constants.STATUS_OK, "User Updated!!", users.getId()), HttpStatus.OK);
-	}
-
-	private void createPublisher(UserDetailsDTO userDetailsDTO, Users users) {
-		publisherRepository.save(new Publisher(users, userDetailsDTO.getFullName(), userDetailsDTO.getUsername(),
-				userDetailsDTO.getEmail(), userDetailsDTO.getMobile(), userDetailsDTO.getBankName(),
-				userDetailsDTO.getAccountNo(), userDetailsDTO.getIfscCode(), LocalDateTime.now(), LocalDateTime.now()));
-	}
-
-	private void createStudent(UserDetailsDTO userDetailsDTO, Users users) {
-		studentRepository.save(new Student(users, userDetailsDTO.getFullName(), userDetailsDTO.getUsername(),
-				userDetailsDTO.getEmail(), userDetailsDTO.getMobile(), LocalDateTime.now(), LocalDateTime.now()));
-	}
-
-	private void createAdmin(UserDetailsDTO userDetailsDTO, Users users) {
-		adminRepository.save(new Admin(users, userDetailsDTO.getFullName(), userDetailsDTO.getUsername(),
-				userDetailsDTO.getEmail(), userDetailsDTO.getMobile(), LocalDateTime.now(), LocalDateTime.now()));
 	}
 
 	private boolean updatePublisher(UserDetailsDTO userDetailsDTO, Users users) {
