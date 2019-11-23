@@ -30,9 +30,8 @@ public class SubjectCategory {
 		super();
 	}
 
-	public SubjectCategory(Long id, String name) {
+	public SubjectCategory(String name) {
 		super();
-		this.id = id;
 		this.name = name;
 	}
 

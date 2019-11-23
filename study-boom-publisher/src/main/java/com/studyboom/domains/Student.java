@@ -55,10 +55,9 @@ public class Student {
 		super();
 	}
 
-	public Student(Long id, Users userIdToStudent, String fullName, String username, String email, Long mobile,
+	public Student(Users userIdToStudent, String fullName, String username, String email, Long mobile,
 			LocalDateTime registrationDate, LocalDateTime modifiedDate) {
 		super();
-		this.id = id;
 		this.userIdToStudent = userIdToStudent;
 		this.fullName = fullName;
 		this.username = username;
