@@ -1,4 +1,4 @@
-package com.studyboom.services.implementation;
+package com.studyboom.services;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -20,10 +20,10 @@ import com.studyboom.repositories.AdminRepository;
 import com.studyboom.repositories.PublisherRepository;
 import com.studyboom.repositories.StudentRepository;
 import com.studyboom.repositories.UserRepository;
-import com.studyboom.services.AccountService;
+import com.studyboom.resources.AccountResources;
 
 @Service
-public class AccountServiceImplementation implements AccountService {
+public class AccountService implements AccountResources {
 
 	@Autowired
 	private UserRepository userRepository;

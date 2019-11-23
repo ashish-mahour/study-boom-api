@@ -46,10 +46,9 @@ public class Admin {
 		super();
 	}
 
-	public Admin(Long id, Users userIdToAdmin, String fullName, String username, String email, Long mobile,
+	public Admin( Users userIdToAdmin, String fullName, String username, String email, Long mobile,
 			LocalDateTime registrationDate, LocalDateTime modifiedDate) {
 		super();
-		this.id = id;
 		this.userIdToAdmin = userIdToAdmin;
 		this.fullName = fullName;
 		this.username = username;
