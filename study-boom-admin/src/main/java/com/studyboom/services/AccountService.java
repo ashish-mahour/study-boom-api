@@ -2,8 +2,12 @@ package com.studyboom.services;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
+import java.util.Set;
+import java.util.TreeSet;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -136,6 +140,22 @@ public class AccountService implements AccountResources {
 			return new ResponseEntity<>(usersOptional.get(), HttpStatus.OK);
 		else
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	}
+
+	@Override
+	public ResponseEntity<Set<Publisher>> getPublishers(int pageNo, int limit) {
+		Set<Publisher> publishers = new TreeSet<>();
+		publishers.addAll(publisherRepository.findAll(PageRequest.of(pageNo, limit, Direction.ASC, "registrationDate"))
+				.getContent());
+		return new ResponseEntity<>(publishers, HttpStatus.OK);
+	}
+
+	@Override
+	public ResponseEntity<Set<Student>> getStudent(int pageNo, int limit) {
+		Set<Student> students = new TreeSet<>();
+		students.addAll(studentRepository.findAll(PageRequest.of(pageNo, limit, Direction.ASC, "registrationDate"))
+				.getContent());
+		return new ResponseEntity<>(students, HttpStatus.OK);
 	}
 
 }

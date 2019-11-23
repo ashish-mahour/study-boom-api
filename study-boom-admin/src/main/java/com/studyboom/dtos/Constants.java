@@ -9,4 +9,8 @@ public interface Constants {
 		PUBLISHER, STUDENT, ADMIN
 	}
 
+	enum REQUEST_STATUS {
+		NOT_STARTED, PROCESSING, SUCCESS, FAILED
+	}
+
 }
