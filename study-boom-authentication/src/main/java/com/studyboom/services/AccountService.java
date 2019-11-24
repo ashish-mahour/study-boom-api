@@ -78,6 +78,8 @@ public class AccountService implements AccountResources {
 			users.setIsActivated(userDetailsDTO.getIsActivated());
 		if (userDetailsDTO.getPassword() != null)
 			users.setPassword(userDetailsDTO.getPassword());
+		if (userDetailsDTO.getProfilePic() != null)
+			users.setProfilePic(userDetailsDTO.getProfilePic());
 
 		if (userDetailsDTO.getType().equalsIgnoreCase(Constants.USER_TYPE.ADMIN.name()))
 			updateAdmin(userDetailsDTO, users);
@@ -115,13 +117,21 @@ public class AccountService implements AccountResources {
 			return false;
 
 		Publisher publisher = publisherOptional.get();
-		publisher.setFullName(userDetailsDTO.getFullName());
-		publisher.setUsername(userDetailsDTO.getUsername());
-		publisher.setEmail(userDetailsDTO.getEmail());
-		publisher.setMobile(userDetailsDTO.getMobile());
-		publisher.setBankName(userDetailsDTO.getBankName());
-		publisher.setAccountNo(userDetailsDTO.getAccountNo());
-		publisher.setIfscCode(userDetailsDTO.getIfscCode());
+		if (userDetailsDTO.getFullName() != null)
+			publisher.setFullName(userDetailsDTO.getFullName());
+		if (userDetailsDTO.getUsername() != null)
+			publisher.setUsername(userDetailsDTO.getUsername());
+		if (userDetailsDTO.getEmail() != null)
+			publisher.setEmail(userDetailsDTO.getEmail());
+		if (userDetailsDTO.getMobile() != null)
+			publisher.setMobile(userDetailsDTO.getMobile());
+		if (userDetailsDTO.getBankName() != null)
+			publisher.setBankName(userDetailsDTO.getBankName());
+		if (userDetailsDTO.getAccountNo() != null)
+			publisher.setAccountNo(userDetailsDTO.getAccountNo());
+		if (userDetailsDTO.getIfscCode() != null)
+			publisher.setIfscCode(userDetailsDTO.getIfscCode());
+
 		publisher.setModifiedDate(LocalDateTime.now());
 
 		publisherRepository.save(publisher);
@@ -135,11 +145,15 @@ public class AccountService implements AccountResources {
 			return false;
 
 		Student student = studentOptional.get();
-		student.setFullName(userDetailsDTO.getFullName());
-		student.setFullName(userDetailsDTO.getFullName());
-		student.setUsername(userDetailsDTO.getUsername());
-		student.setEmail(userDetailsDTO.getEmail());
-		student.setMobile(userDetailsDTO.getMobile());
+		if (userDetailsDTO.getFullName() != null)
+			student.setFullName(userDetailsDTO.getFullName());
+		if (userDetailsDTO.getUsername() != null)
+			student.setUsername(userDetailsDTO.getUsername());
+		if (userDetailsDTO.getEmail() != null)
+			student.setEmail(userDetailsDTO.getEmail());
+		if (userDetailsDTO.getMobile() != null)
+			student.setMobile(userDetailsDTO.getMobile());
+
 		student.setModifiedDate(LocalDateTime.now());
 
 		studentRepository.save(student);
@@ -154,11 +168,15 @@ public class AccountService implements AccountResources {
 			return false;
 
 		Admin admin = adminOptional.get();
-		admin.setFullName(userDetailsDTO.getFullName());
-		admin.setFullName(userDetailsDTO.getFullName());
-		admin.setUsername(userDetailsDTO.getUsername());
-		admin.setEmail(userDetailsDTO.getEmail());
-		admin.setMobile(userDetailsDTO.getMobile());
+		if (userDetailsDTO.getFullName() != null)
+			admin.setFullName(userDetailsDTO.getFullName());
+		if (userDetailsDTO.getUsername() != null)
+			admin.setUsername(userDetailsDTO.getUsername());
+		if (userDetailsDTO.getEmail() != null)
+			admin.setEmail(userDetailsDTO.getEmail());
+		if (userDetailsDTO.getMobile() != null)
+			admin.setMobile(userDetailsDTO.getMobile());
+
 		admin.setModifiedDate(LocalDateTime.now());
 
 		adminRepository.save(admin);
