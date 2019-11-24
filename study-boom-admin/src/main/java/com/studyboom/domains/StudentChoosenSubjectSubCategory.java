@@ -11,6 +11,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "student_choosen_subject_sub_categories")
 public class StudentChoosenSubjectSubCategory {
@@ -20,11 +22,13 @@ public class StudentChoosenSubjectSubCategory {
 	private Long id;
 
 	@JoinColumn(name = "student_id")
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JsonIgnore
 	private Student studentIdToChoosenSubCategories;
 
 	@JoinColumn(name = "subject_sub_category_id")
-	@OneToOne(fetch = FetchType.EAGER)
+	@OneToOne(fetch = FetchType.LAZY)
+	@JsonIgnore
 	private SubjectSubCategory subjectSubCategoryIdToChoosenSubCategories;
 
 	@Column(name = "priority_level", nullable = true)

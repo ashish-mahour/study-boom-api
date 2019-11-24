@@ -15,6 +15,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "subject_sub_category")
 public class SubjectSubCategory {
@@ -24,7 +26,8 @@ public class SubjectSubCategory {
 	private Long id;
 
 	@JoinColumn(name = "subject_category_id")
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JsonIgnore
 	private SubjectCategory subjectCategoryIdToSubCategory;
 
 	@Column(name = "name", nullable = false)

@@ -12,6 +12,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "admin")
 public class Admin {
@@ -21,7 +23,8 @@ public class Admin {
 	private Long id;
 
 	@JoinColumn(name = "user_id")
-	@OneToOne(fetch = FetchType.EAGER)
+	@OneToOne(fetch = FetchType.LAZY)
+	@JsonIgnore
 	private Users userIdToAdmin;
 
 	@Column(name = "full_name", nullable = false)

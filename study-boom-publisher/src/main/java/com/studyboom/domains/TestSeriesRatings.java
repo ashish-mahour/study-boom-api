@@ -10,6 +10,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "test_series_ratings")
 public class TestSeriesRatings {
@@ -19,11 +21,13 @@ public class TestSeriesRatings {
 	private Long id;
 
 	@JoinColumn(name = "rated_by")
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JsonIgnore
 	private Student ratedByStudent;
 
 	@JoinColumn(name = "test_series_id")
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JsonIgnore
 	private TestSeries testSeriesIdToRatings;
 
 	@Column(name = "difficulty", nullable = true)

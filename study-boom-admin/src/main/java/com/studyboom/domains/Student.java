@@ -15,6 +15,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "student")
 public class Student {
@@ -24,7 +26,8 @@ public class Student {
 	private Long id;
 
 	@JoinColumn(name = "user_id")
-	@OneToOne(fetch = FetchType.EAGER)
+	@OneToOne(fetch = FetchType.LAZY)
+	@JsonIgnore
 	private Users userIdToStudent;
 
 	@Column(name = "full_name", nullable = false)

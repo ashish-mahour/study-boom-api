@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 import com.studyboom.domains.Admin;
 import com.studyboom.domains.Publisher;
 import com.studyboom.domains.Student;
@@ -36,6 +38,8 @@ public class AccountService implements AccountResources {
 
 	@Autowired
 	private PublisherRepository publisherRepository;
+	
+	ObjectWriter writer = new ObjectMapper().writer();
 
 	@Override
 	public ResponseEntity<AccountStatusDTO> createAccount(UserDetailsDTO userDetailsDTO) {
@@ -189,6 +193,15 @@ public class AccountService implements AccountResources {
 	public ResponseEntity<Users> getUser(Long id) {
 		Optional<Users> usersOptional = userRepository.findById(id);
 		if (usersOptional.isPresent())
+			return new ResponseEntity<>(usersOptional.get(), HttpStatus.OK);
+		else
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	}
+
+	@Override
+	public ResponseEntity<Users> performLogin(String username, String password) {
+		Optional<Users> usersOptional = userRepository.findByUsernameOrEmailAndPassword(username, username, password);
+		if (usersOptional.isPresent() && usersOptional.get().getIsActivated())
 			return new ResponseEntity<>(usersOptional.get(), HttpStatus.OK);
 		else
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

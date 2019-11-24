@@ -23,7 +23,7 @@ public class SubjectCategory {
 	@Column(name = "name", nullable = false)
 	private String name;
 
-	@OneToMany(fetch = FetchType.LAZY, targetEntity = SubjectSubCategory.class, mappedBy = "subjectCategoryIdToSubCategory")
+	@OneToMany(fetch = FetchType.EAGER, targetEntity = SubjectSubCategory.class, mappedBy = "subjectCategoryIdToSubCategory")
 	private Set<SubjectSubCategory> subjectCategoryIdToSubCategory = new TreeSet<SubjectSubCategory>();
 
 	public SubjectCategory() {

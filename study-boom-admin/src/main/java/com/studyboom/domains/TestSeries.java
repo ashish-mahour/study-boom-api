@@ -14,6 +14,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "test_series")
 public class TestSeries {
@@ -23,14 +25,16 @@ public class TestSeries {
 	private Long id;
 
 	@JoinColumn(name = "uploaded_by")
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JsonIgnore
 	private Publisher uploadedByPublisher;
 
 	@Column(name = "name", nullable = false)
 	private String name;
 
 	@JoinColumn(name = "subject_sub_category_id")
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JsonIgnore
 	private SubjectSubCategory subjectSubCategoryIdToTestSeries;
 
 	@Column(name = "total_questions", nullable = false)
@@ -48,10 +52,10 @@ public class TestSeries {
 	@Column(name = "price", nullable = false)
 	private Integer price;
 
-	@OneToMany(fetch = FetchType.LAZY, targetEntity = TestSeriesData.class, mappedBy = "testSeriesIdToTestSeriesData")
+	@OneToMany(fetch = FetchType.EAGER, targetEntity = TestSeriesData.class, mappedBy = "testSeriesIdToTestSeriesData")
 	private Set<TestSeriesData> testSeriesIdToTestSeriesData = new TreeSet<TestSeriesData>();
 
-	@OneToMany(fetch = FetchType.LAZY, targetEntity = TestSeriesRatings.class, mappedBy = "testSeriesIdToRatings")
+	@OneToMany(fetch = FetchType.EAGER, targetEntity = TestSeriesRatings.class, mappedBy = "testSeriesIdToRatings")
 	private Set<TestSeriesRatings> testSeriesIdToRatings = new TreeSet<TestSeriesRatings>();
 
 	public TestSeries() {

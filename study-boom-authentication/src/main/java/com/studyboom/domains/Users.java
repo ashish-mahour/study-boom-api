@@ -42,17 +42,17 @@ public class Users {
 	private Boolean isActivated;
 
 	@OneToOne(fetch = FetchType.LAZY, targetEntity = Admin.class, mappedBy = "userIdToAdmin")
-	private Admin userIdToAdmin;
+	private Admin userIdFromAdmin;
 
 	@OneToOne(fetch = FetchType.LAZY, targetEntity = Student.class, mappedBy = "userIdToStudent")
-	private Student userIdToStudent;
+	private Student userIdFromStudent;
 
 	@OneToOne(fetch = FetchType.LAZY, targetEntity = Publisher.class, mappedBy = "userIdToPublisher")
-	private Publisher userIdToPublisher;
+	private Publisher userIdFromPublisher;
 
-	@OneToMany(fetch = FetchType.LAZY, targetEntity = Requests.class, mappedBy = "userIdToRequests")
+	@OneToMany(targetEntity = Requests.class, mappedBy = "userIdToRequests")
 	@JsonIgnore
-	private Set<Requests> userIdToRequests = new TreeSet<Requests>();
+	private Set<Requests> userIdsFromRequests = new TreeSet<Requests>();
 
 	public Users() {
 	}
@@ -123,36 +123,36 @@ public class Users {
 		this.isActivated = isActivated;
 	}
 
-	public Admin getUserIdToAdmin() {
-		return userIdToAdmin;
+	public Admin getUserIdFromAdmin() {
+		return userIdFromAdmin;
 	}
 
-	public void setUserIdToAdmin(Admin userIdToAdmin) {
-		this.userIdToAdmin = userIdToAdmin;
+	public void setUserIdFromAdmin(Admin userIdFromAdmin) {
+		this.userIdFromAdmin = userIdFromAdmin;
 	}
 
-	public Student getUserIdToStudent() {
-		return userIdToStudent;
+	public Student getUserIdFromStudent() {
+		return userIdFromStudent;
 	}
 
-	public void setUserIdToStudent(Student userIdToStudent) {
-		this.userIdToStudent = userIdToStudent;
+	public void setUserIdFromStudent(Student userIdFromStudent) {
+		this.userIdFromStudent = userIdFromStudent;
 	}
 
-	public Publisher getUserIdToPublisher() {
-		return userIdToPublisher;
+	public Publisher getUserIdFromPublisher() {
+		return userIdFromPublisher;
 	}
 
-	public void setUserIdToPublisher(Publisher userIdToPublisher) {
-		this.userIdToPublisher = userIdToPublisher;
+	public void setUserIdFromPublisher(Publisher userIdFromPublisher) {
+		this.userIdFromPublisher = userIdFromPublisher;
 	}
 
-	public Set<Requests> getUserIdToRequests() {
-		return userIdToRequests;
+	public Set<Requests> getUserIdsFromRequests() {
+		return userIdsFromRequests;
 	}
 
-	public void setUserIdToRequests(Set<Requests> userIdToRequests) {
-		this.userIdToRequests = userIdToRequests;
+	public void setUserIdsFromRequests(Set<Requests> userIdsFromRequests) {
+		this.userIdsFromRequests = userIdsFromRequests;
 	}
 
 	@Override

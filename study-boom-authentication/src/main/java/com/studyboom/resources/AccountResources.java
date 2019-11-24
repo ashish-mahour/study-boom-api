@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.studyboom.domains.Users;
@@ -30,4 +31,7 @@ public interface AccountResources {
 	@GetMapping(value = "/get/user/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Users> getUser(@PathVariable("id") Long id);
 
+	@GetMapping(value = "/perform/login", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Users> performLogin(@RequestParam("username") String username,
+			@RequestParam("password") String password);
 }

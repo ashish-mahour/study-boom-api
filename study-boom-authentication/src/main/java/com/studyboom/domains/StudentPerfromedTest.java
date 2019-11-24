@@ -13,6 +13,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "student_performed_test")
 public class StudentPerfromedTest {
@@ -22,11 +24,13 @@ public class StudentPerfromedTest {
 	private Long id;
 
 	@JoinColumn(name = "performed_by")
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JsonIgnore
 	private Student performendByStudent;
 
 	@JoinColumn(name = "test_performed")
-	@OneToOne(fetch = FetchType.EAGER)
+	@OneToOne(fetch = FetchType.LAZY)
+	@JsonIgnore
 	private TestSeries testSeriesPerformed;
 
 	@Column(name = "attemped", nullable = false)
