@@ -49,7 +49,6 @@ public class Requests {
 	public Requests(Users userIdToRequests, String requestText, String processed, String status,
 			LocalDateTime lastModified, LocalDateTime dateCreated) {
 		super();
-		this.id = id;
 		this.userIdToRequests = userIdToRequests;
 		this.requestText = requestText;
 		this.processed = processed;

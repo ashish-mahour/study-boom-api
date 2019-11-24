@@ -38,13 +38,13 @@ public class AccountService implements AccountResources {
 
 	@Autowired
 	private PublisherRepository publisherRepository;
-	
+
 	ObjectWriter writer = new ObjectMapper().writer();
 
 	@Override
 	public ResponseEntity<AccountStatusDTO> createAccount(UserDetailsDTO userDetailsDTO) {
 		Users users = userRepository.save(new Users(userDetailsDTO.getFullName(), userDetailsDTO.getUsername(),
-				userDetailsDTO.getEmail(), userDetailsDTO.getPassword(), userDetailsDTO.getType(), false));
+				userDetailsDTO.getEmail(), userDetailsDTO.getPassword(), userDetailsDTO.getType(), null, false));
 
 		if (userDetailsDTO.getType().equalsIgnoreCase(Constants.USER_TYPE.ADMIN.name()))
 			createAdmin(userDetailsDTO, users);

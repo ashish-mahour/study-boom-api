@@ -38,6 +38,9 @@ public class Users {
 	@Column(name = "type", nullable = false)
 	private String type;
 
+	@Column(name = "profilePic", nullable = true)
+	private String profilePic;
+
 	@Column(name = "is_activated", nullable = false)
 	private Boolean isActivated;
 
@@ -57,11 +60,13 @@ public class Users {
 	public Users() {
 	}
 
-	public Users(String fullName, String username, String email, String password, String type, Boolean isActivated) {
+	public Users(String fullName, String username, String email, String password, String type, String profilePic,
+			Boolean isActivated) {
 		super();
 		this.fullName = fullName;
 		this.username = username;
 		this.email = email;
+		this.profilePic = profilePic;
 		this.password = password;
 		this.type = type;
 		this.isActivated = isActivated;
@@ -153,6 +158,14 @@ public class Users {
 
 	public void setUserIdsFromRequests(Set<Requests> userIdsFromRequests) {
 		this.userIdsFromRequests = userIdsFromRequests;
+	}
+
+	public String getProfilePic() {
+		return profilePic;
+	}
+
+	public void setProfilePic(String profilePic) {
+		this.profilePic = profilePic;
 	}
 
 	@Override

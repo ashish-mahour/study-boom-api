@@ -8,6 +8,7 @@ public class UserDetailsDTO {
 	private String email;
 	private String password;
 	private String type;
+	private String profilePic;
 	private Long mobile;
 	private String bankName;
 	private String accountNo;
@@ -105,4 +106,13 @@ public class UserDetailsDTO {
 	public void setIsActivated(Boolean isActivated) {
 		this.isActivated = isActivated;
 	}
+
+	public String getProfilePic() {
+		return profilePic;
+	}
+
+	public void setProfilePic(String profilePic) {
+		this.profilePic = profilePic;
+	}
+
 }
