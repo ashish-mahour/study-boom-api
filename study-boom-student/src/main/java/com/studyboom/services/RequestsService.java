@@ -35,8 +35,8 @@ public class RequestsService implements RequestResources {
 			return new ResponseEntity<Set<Requests>>(HttpStatus.BAD_REQUEST);
 
 		Set<Requests> requests = new TreeSet<>();
-		requests.addAll(
-				requestRepository.findAll(PageRequest.of(pageNo, limit, Direction.ASC, "dateCreated")).getContent());
+		requests.addAll(requestRepository.findByUserIdToRequests(usersOptional.get(),
+				PageRequest.of(pageNo, limit, Direction.ASC, "dateCreated")));
 		return new ResponseEntity<Set<Requests>>(requests, HttpStatus.OK);
 	}
 

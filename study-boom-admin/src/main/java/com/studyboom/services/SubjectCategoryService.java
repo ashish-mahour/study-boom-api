@@ -1,10 +1,12 @@
 package com.studyboom.services;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.TreeSet;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -28,10 +30,9 @@ public class SubjectCategoryService implements SubjectCategoryResources {
 	private SubjectSubCategoryRepository subjectSubCategoryRepository;
 
 	@Override
-	public ResponseEntity<Set<SubjectCategory>> getCategories() {
-		Set<SubjectCategory> subjectCategorySet = new TreeSet<>();
-		subjectCategorySet.addAll(subjectCategoryRepository.findAll());
-		return new ResponseEntity<Set<SubjectCategory>>(subjectCategorySet, HttpStatus.OK);
+	public ResponseEntity<List<SubjectCategory>> getCategories(int pageNo, int limit) {
+		return new ResponseEntity<List<SubjectCategory>>(
+				subjectCategoryRepository.findAll(PageRequest.of(pageNo, limit)).getContent(), HttpStatus.OK);
 	}
 
 	@Override
@@ -67,7 +68,7 @@ public class SubjectCategoryService implements SubjectCategoryResources {
 		Set<SubjectSubCategory> subjectSubCategories = subjectCategory.getSubjectCategoryIdToSubCategory();
 
 		Set<SubCategoryDetails> subCategories = categoryDetailsDTO.getSubCategories();
-		
+
 		for (SubCategoryDetails subCategoryDetails : subCategories) {
 
 			if (subCategoryDetails.getSubCategoryId() == null)
@@ -84,7 +85,7 @@ public class SubjectCategoryService implements SubjectCategoryResources {
 			}
 
 		}
-		
+
 		subjectCategoryRepository.save(subjectCategory);
 
 		return new ResponseEntity<CategoryStatusDTO>(

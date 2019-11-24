@@ -1,9 +1,8 @@
 package com.studyboom.services;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
-import java.util.Set;
-import java.util.TreeSet;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -24,6 +23,7 @@ import com.studyboom.repositories.PublisherRepository;
 import com.studyboom.repositories.StudentRepository;
 import com.studyboom.repositories.UserRepository;
 import com.studyboom.resources.AccountResources;
+
 
 @Service
 public class AccountService implements AccountResources {
@@ -143,19 +143,9 @@ public class AccountService implements AccountResources {
 	}
 
 	@Override
-	public ResponseEntity<Set<Publisher>> getPublishers(int pageNo, int limit) {
-		Set<Publisher> publishers = new TreeSet<>();
-		publishers.addAll(publisherRepository.findAll(PageRequest.of(pageNo, limit, Direction.ASC, "registrationDate"))
-				.getContent());
-		return new ResponseEntity<>(publishers, HttpStatus.OK);
-	}
-
-	@Override
-	public ResponseEntity<Set<Student>> getStudent(int pageNo, int limit) {
-		Set<Student> students = new TreeSet<>();
-		students.addAll(studentRepository.findAll(PageRequest.of(pageNo, limit, Direction.ASC, "registrationDate"))
-				.getContent());
-		return new ResponseEntity<>(students, HttpStatus.OK);
+	public ResponseEntity<List<Users>> getUsers(int pageNo, int limit) {
+		return new ResponseEntity<>(userRepository.findByTypeOrType(Constants.USER_TYPE.PUBLISHER.name(),
+				Constants.USER_TYPE.STUDENT.name(), PageRequest.of(pageNo, limit, Direction.ASC, "fullName")), HttpStatus.OK);
 	}
 
 }

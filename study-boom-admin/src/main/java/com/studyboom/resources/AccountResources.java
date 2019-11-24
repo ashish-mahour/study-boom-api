@@ -1,6 +1,6 @@
 package com.studyboom.resources;
 
-import java.util.Set;
+import java.util.List;
 
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -12,8 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.studyboom.domains.Publisher;
-import com.studyboom.domains.Student;
 import com.studyboom.domains.Users;
 import com.studyboom.dtos.AccountStatusDTO;
 import com.studyboom.dtos.UserDetailsDTO;
@@ -27,10 +25,7 @@ public interface AccountResources {
 
 	@GetMapping(value = "/get/user/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Users> getUser(@PathVariable("id") Long id);
-	
-	@GetMapping(value="/get/users", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Set<Publisher>> getPublishers(@RequestParam("pageNo") int pageNo, @RequestParam("limit") int limit);
 
-	@GetMapping(value="/get/users", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Set<Student>> getStudent(@RequestParam("pageNo") int pageNo, @RequestParam("limit") int limit);
+	@GetMapping(value = "/get/users", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<Users>> getUsers(@RequestParam("pageNo") int pageNo, @RequestParam("limit") int limit);
 }

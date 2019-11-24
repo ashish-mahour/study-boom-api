@@ -1,6 +1,6 @@
 package com.studyboom.repositories;
 
-import java.util.Set;
+import java.util.List;
 
 import javax.transaction.Transactional;
 
@@ -15,7 +15,7 @@ import com.studyboom.domains.Users;
 @Transactional
 public interface RequestRepository extends JpaRepository<Requests, Long> {
 
-	public Set<Requests> findByUserIdToRequests(Users users, Pageable pageable);
+	public List<Requests> findByUserIdToRequests(Users users, Pageable pageable);
 	
 
 }

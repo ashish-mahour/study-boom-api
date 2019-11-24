@@ -33,6 +33,7 @@ public class Users {
 	private String email;
 
 	@Column(name = "password", nullable = false)
+	@JsonIgnore
 	private String password;
 
 	@Column(name = "type", nullable = false)
