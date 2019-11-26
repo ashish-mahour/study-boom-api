@@ -85,7 +85,7 @@ public class AccountService implements AccountResources {
 		publisher.setFullName(userDetailsDTO.getFullName());
 		publisher.setUsername(userDetailsDTO.getUsername());
 		publisher.setEmail(userDetailsDTO.getEmail());
-		publisher.setMobile(userDetailsDTO.getMobile());
+		publisher.setMobile(userDetailsDTO.getMobileNo());
 		publisher.setBankName(userDetailsDTO.getBankName());
 		publisher.setAccountNo(userDetailsDTO.getAccountNo());
 		publisher.setIfscCode(userDetailsDTO.getIfscCode());
@@ -106,7 +106,7 @@ public class AccountService implements AccountResources {
 		student.setFullName(userDetailsDTO.getFullName());
 		student.setUsername(userDetailsDTO.getUsername());
 		student.setEmail(userDetailsDTO.getEmail());
-		student.setMobile(userDetailsDTO.getMobile());
+		student.setMobile(userDetailsDTO.getMobileNo());
 		student.setModifiedDate(LocalDateTime.now());
 
 		studentRepository.save(student);
@@ -125,7 +125,7 @@ public class AccountService implements AccountResources {
 		admin.setFullName(userDetailsDTO.getFullName());
 		admin.setUsername(userDetailsDTO.getUsername());
 		admin.setEmail(userDetailsDTO.getEmail());
-		admin.setMobile(userDetailsDTO.getMobile());
+		admin.setMobile(userDetailsDTO.getMobileNo());
 		admin.setModifiedDate(LocalDateTime.now());
 
 		adminRepository.save(admin);

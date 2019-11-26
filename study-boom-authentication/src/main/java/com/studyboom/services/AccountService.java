@@ -65,7 +65,7 @@ public class AccountService implements AccountResources {
 					"User is not Present in the Database!!", userDetailsDTO.getId()), HttpStatus.OK);
 
 		Users users = userOptional.get();
-
+		
 		/*
 		 * MODIFING USER DETAILS
 		 */
@@ -96,19 +96,19 @@ public class AccountService implements AccountResources {
 
 	private void createPublisher(UserDetailsDTO userDetailsDTO, Users users) {
 		publisherRepository.save(new Publisher(users, userDetailsDTO.getFullName(), userDetailsDTO.getUsername(),
-				userDetailsDTO.getEmail(), userDetailsDTO.getMobile(), userDetailsDTO.getBankName(),
+				userDetailsDTO.getEmail(), userDetailsDTO.getMobileNo(), userDetailsDTO.getBankName(),
 				userDetailsDTO.getBranchName(), userDetailsDTO.getAccountNo(), userDetailsDTO.getIfscCode(),
 				LocalDateTime.now(), LocalDateTime.now()));
 	}
 
 	private void createStudent(UserDetailsDTO userDetailsDTO, Users users) {
 		studentRepository.save(new Student(users, userDetailsDTO.getFullName(), userDetailsDTO.getUsername(),
-				userDetailsDTO.getEmail(), userDetailsDTO.getMobile(), LocalDateTime.now(), LocalDateTime.now()));
+				userDetailsDTO.getEmail(), userDetailsDTO.getMobileNo(), LocalDateTime.now(), LocalDateTime.now()));
 	}
 
 	private void createAdmin(UserDetailsDTO userDetailsDTO, Users users) {
 		adminRepository.save(new Admin(users, userDetailsDTO.getFullName(), userDetailsDTO.getUsername(),
-				userDetailsDTO.getEmail(), userDetailsDTO.getMobile(), LocalDateTime.now(), LocalDateTime.now()));
+				userDetailsDTO.getEmail(), userDetailsDTO.getMobileNo(), LocalDateTime.now(), LocalDateTime.now()));
 	}
 
 	private boolean updatePublisher(UserDetailsDTO userDetailsDTO, Users users) {
@@ -124,8 +124,8 @@ public class AccountService implements AccountResources {
 			publisher.setUsername(userDetailsDTO.getUsername());
 		if (userDetailsDTO.getEmail() != null)
 			publisher.setEmail(userDetailsDTO.getEmail());
-		if (userDetailsDTO.getMobile() != null)
-			publisher.setMobile(userDetailsDTO.getMobile());
+		if (userDetailsDTO.getMobileNo() != null)
+			publisher.setMobile(userDetailsDTO.getMobileNo());
 		if (userDetailsDTO.getBankName() != null)
 			publisher.setBankName(userDetailsDTO.getBankName());
 		if (userDetailsDTO.getBranchName() != null)
@@ -154,8 +154,8 @@ public class AccountService implements AccountResources {
 			student.setUsername(userDetailsDTO.getUsername());
 		if (userDetailsDTO.getEmail() != null)
 			student.setEmail(userDetailsDTO.getEmail());
-		if (userDetailsDTO.getMobile() != null)
-			student.setMobile(userDetailsDTO.getMobile());
+		if (userDetailsDTO.getMobileNo() != null)
+			student.setMobile(userDetailsDTO.getMobileNo());
 
 		student.setModifiedDate(LocalDateTime.now());
 
@@ -177,8 +177,8 @@ public class AccountService implements AccountResources {
 			admin.setUsername(userDetailsDTO.getUsername());
 		if (userDetailsDTO.getEmail() != null)
 			admin.setEmail(userDetailsDTO.getEmail());
-		if (userDetailsDTO.getMobile() != null)
-			admin.setMobile(userDetailsDTO.getMobile());
+		if (userDetailsDTO.getMobileNo() != null)
+			admin.setMobile(userDetailsDTO.getMobileNo());
 
 		admin.setModifiedDate(LocalDateTime.now());
 

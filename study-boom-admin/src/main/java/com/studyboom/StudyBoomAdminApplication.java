@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.util.SocketUtils;
 import org.springframework.util.StringUtils;
 
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = "com.studyboom")
 @EnableDiscoveryClient
 @RibbonClient("study-boom-admin")
 @EnableJpaRepositories("com.studyboom")

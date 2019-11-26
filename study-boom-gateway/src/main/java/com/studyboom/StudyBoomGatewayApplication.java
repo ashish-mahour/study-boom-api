@@ -30,4 +30,9 @@ public class StudyBoomGatewayApplication {
 		source.registerCorsConfiguration("/**", config);
 		return new CorsFilter(source);
 	}
+	
+	@Bean
+	public ZuulFilters zuulFilters() {
+		return new ZuulFilters();
+	}
 }

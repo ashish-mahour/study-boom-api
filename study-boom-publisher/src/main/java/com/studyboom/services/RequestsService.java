@@ -10,6 +10,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 
 import com.studyboom.domains.Requests;
 import com.studyboom.domains.Users;
@@ -20,6 +21,7 @@ import com.studyboom.repositories.RequestRepository;
 import com.studyboom.repositories.UserRepository;
 import com.studyboom.resources.RequestResources;
 
+@Service
 public class RequestsService implements RequestResources {
 
 	@Autowired

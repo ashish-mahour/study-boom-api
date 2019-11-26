@@ -2,6 +2,7 @@ package com.studyboom.resources;
 
 import java.util.List;
 
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,10 +19,11 @@ import com.studyboom.dtos.RequestsDetailsDTO;
 @RequestMapping("api")
 public interface RequestResources {
 
-	@GetMapping("/get/requests")
-	public ResponseEntity<List<Requests>> getRequests(@RequestParam("pageNo") int pageNo, @RequestParam("limit") int limit);
-	
-	@PostMapping("/modify/request")
+	@GetMapping(value = "/get/users/requests", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<Requests>> getRequests(@RequestParam("pageNo") int pageNo,
+			@RequestParam("limit") int limit);
+
+	@PostMapping(value = "/modify/users/request", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<RequestStatusDTO> modifyRequest(@RequestBody RequestsDetailsDTO requestsDetailsDTO);
-	
+
 }
