@@ -1,6 +1,6 @@
 package com.studyboom.resources;
 
-import java.util.Set;
+import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,7 +19,7 @@ import com.studyboom.dtos.RequestsDetailsDTO;
 public interface RequestResources {
 
 	@GetMapping("/get/requests")
-	public ResponseEntity<Set<Requests>> getRequests(@RequestParam("pageNo") int pageNo, @RequestParam("limit") int limit);
+	public ResponseEntity<List<Requests>> getRequests(@RequestParam("pageNo") int pageNo, @RequestParam("limit") int limit);
 	
 	@PostMapping("/modify/request")
 	public ResponseEntity<RequestStatusDTO> modifyRequest(@RequestBody RequestsDetailsDTO requestsDetailsDTO);

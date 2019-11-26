@@ -1,9 +1,8 @@
 package com.studyboom.services;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
-import java.util.TreeSet;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -41,11 +40,13 @@ public class SubjectCategoryService implements SubjectCategoryResources {
 		SubjectCategory subjectCategory = subjectCategoryRepository
 				.save(new SubjectCategory(categoryDetailsDTO.getCategoryName()));
 
-		Set<SubCategoryDetails> subCategories = categoryDetailsDTO.getSubCategories();
+		List<SubCategoryDetails> subCategories = categoryDetailsDTO.getSubCategories();
 
-		Set<SubjectSubCategory> subjectSubCategories = new TreeSet<>();
+		List<SubjectSubCategory> subjectSubCategories = new ArrayList<>();
 		for (SubCategoryDetails subCategoryDetails : subCategories)
-			subjectSubCategories.add(new SubjectSubCategory(subjectCategory, subCategoryDetails.getSubCategoryName()));
+			if (subCategoryDetails.getSubCategoryId() == null && subCategoryDetails.getSubCategoryName() != null)
+				subjectSubCategories
+						.add(new SubjectSubCategory(subjectCategory, subCategoryDetails.getSubCategoryName()));
 
 		subjectSubCategoryRepository.saveAll(subjectSubCategories);
 
@@ -55,6 +56,10 @@ public class SubjectCategoryService implements SubjectCategoryResources {
 
 	@Override
 	public ResponseEntity<CategoryStatusDTO> modifyCategory(CategoryDetailsDTO categoryDetailsDTO) {
+		if (categoryDetailsDTO.getCategoryId() == null)
+			return new ResponseEntity<CategoryStatusDTO>(new CategoryStatusDTO(0, "Category ID is null!!", null),
+					HttpStatus.BAD_REQUEST);
+
 		Optional<SubjectCategory> subjectCategoryOptional = subjectCategoryRepository
 				.findById(categoryDetailsDTO.getCategoryId());
 		if (!subjectCategoryOptional.isPresent())
@@ -63,17 +68,19 @@ public class SubjectCategoryService implements SubjectCategoryResources {
 					HttpStatus.BAD_REQUEST);
 
 		SubjectCategory subjectCategory = subjectCategoryOptional.get();
-		subjectCategory.setName(subjectCategory.getName());
+		subjectCategory.setName(categoryDetailsDTO.getCategoryName());
 
-		Set<SubjectSubCategory> subjectSubCategories = subjectCategory.getSubjectCategoryIdToSubCategory();
+		List<SubjectSubCategory> subjectSubCategories = subjectCategory.getSubjectCategoryIdToSubCategory();
 
-		Set<SubCategoryDetails> subCategories = categoryDetailsDTO.getSubCategories();
+		List<SubCategoryDetails> subCategories = categoryDetailsDTO.getSubCategories();
 
 		for (SubCategoryDetails subCategoryDetails : subCategories) {
 
-			if (subCategoryDetails.getSubCategoryId() == null)
+			if (subCategoryDetails.getSubCategoryId() == null && subCategoryDetails.getSubCategoryName() != null) {
+				subjectSubCategoryRepository
+						.save(new SubjectSubCategory(subjectCategory, subCategoryDetails.getSubCategoryName()));
 				continue;
-
+			}
 			Optional<SubjectSubCategory> subjectSubCategoryOptional = subjectSubCategoryRepository
 					.findById(subCategoryDetails.getSubCategoryId());
 
@@ -90,6 +97,25 @@ public class SubjectCategoryService implements SubjectCategoryResources {
 
 		return new ResponseEntity<CategoryStatusDTO>(
 				new CategoryStatusDTO(1, "Category Modified!!!", subjectCategory.getId()), HttpStatus.OK);
+	}
+
+	@Override
+	public ResponseEntity<CategoryStatusDTO> deleteCategory(Long id) {
+		if (id == null)
+			return new ResponseEntity<CategoryStatusDTO>(new CategoryStatusDTO(0, "Category ID is null!!", null),
+					HttpStatus.BAD_REQUEST);
+
+		Optional<SubjectCategory> subjectCategoryOptional = subjectCategoryRepository.findById(id);
+		if (!subjectCategoryOptional.isPresent())
+			return new ResponseEntity<CategoryStatusDTO>(new CategoryStatusDTO(0, "Category not found!!!", id),
+					HttpStatus.BAD_REQUEST);
+		SubjectCategory subjectCategory = subjectCategoryOptional.get();
+		for (SubjectSubCategory subCategory : subjectCategory.getSubjectCategoryIdToSubCategory())
+			subjectSubCategoryRepository.delete(subCategory);
+
+		subjectCategoryRepository.delete(subjectCategory);
+		return new ResponseEntity<CategoryStatusDTO>(new CategoryStatusDTO(1, "Category Deleted!!!", id),
+				HttpStatus.OK);
 	}
 
 }

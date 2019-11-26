@@ -1,9 +1,8 @@
 package com.studyboom.services;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
-import java.util.Set;
-import java.util.TreeSet;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -28,11 +27,10 @@ public class RequestsService implements RequestResources {
 	private UserRepository userRepository;
 
 	@Override
-	public ResponseEntity<Set<Requests>> getRequests(int pageNo, int limit) {
-		Set<Requests> requests = new TreeSet<>();
-		requests.addAll(
-				requestRepository.findAll(PageRequest.of(pageNo, limit, Direction.ASC, "dateCreated")).getContent());
-		return new ResponseEntity<Set<Requests>>(requests, HttpStatus.OK);
+	public ResponseEntity<List<Requests>> getRequests(int pageNo, int limit) {
+		return new ResponseEntity<List<Requests>>(
+				requestRepository.findAll(PageRequest.of(pageNo, limit, Direction.ASC, "dateCreated")).getContent(),
+				HttpStatus.OK);
 	}
 
 	@Override

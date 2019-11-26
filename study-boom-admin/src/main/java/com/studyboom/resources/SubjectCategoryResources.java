@@ -27,4 +27,7 @@ public interface SubjectCategoryResources {
 
 	@PostMapping(path = "/modify/subject/cateogories")
 	public ResponseEntity<CategoryStatusDTO> modifyCategory(@RequestBody CategoryDetailsDTO categoryDetailsDTO);
+	
+	@GetMapping(path="/delete/subject/cateogories")
+	public ResponseEntity<CategoryStatusDTO> deleteCategory(@RequestParam("id") Long id);
 }

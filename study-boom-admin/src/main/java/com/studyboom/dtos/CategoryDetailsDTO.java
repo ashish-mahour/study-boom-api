@@ -1,18 +1,18 @@
 package com.studyboom.dtos;
 
-import java.util.Set;
+import java.util.List;
 
 public class CategoryDetailsDTO {
 
 	private Long categoryId;
 	private String categoryName;
-	private Set<SubCategoryDetails> subCategories;
+	private List<SubCategoryDetails> subCategories;
 
 	public CategoryDetailsDTO() {
 		super();
 	}
 
-	public CategoryDetailsDTO(Long categoryId, String categoryName, Set<SubCategoryDetails> subCategories) {
+	public CategoryDetailsDTO(Long categoryId, String categoryName, List<SubCategoryDetails> subCategories) {
 		super();
 		this.categoryId = categoryId;
 		this.categoryName = categoryName;
@@ -35,11 +35,11 @@ public class CategoryDetailsDTO {
 		this.categoryName = categoryName;
 	}
 
-	public Set<SubCategoryDetails> getSubCategories() {
+	public List<SubCategoryDetails> getSubCategories() {
 		return subCategories;
 	}
 
-	public void setSubCategories(Set<SubCategoryDetails> subCategories) {
+	public void setSubCategories(List<SubCategoryDetails> subCategories) {
 		this.subCategories = subCategories;
 	}
 

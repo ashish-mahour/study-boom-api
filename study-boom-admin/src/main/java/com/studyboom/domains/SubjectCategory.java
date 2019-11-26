@@ -1,7 +1,7 @@
 package com.studyboom.domains;
 
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -24,7 +24,7 @@ public class SubjectCategory {
 	private String name;
 
 	@OneToMany(fetch = FetchType.EAGER, targetEntity = SubjectSubCategory.class, mappedBy = "subjectCategoryIdToSubCategory")
-	private Set<SubjectSubCategory> subjectCategoryIdToSubCategory = new TreeSet<SubjectSubCategory>();
+	private List<SubjectSubCategory> subjectCategoryIdToSubCategory = new ArrayList<SubjectSubCategory>();
 
 	public SubjectCategory() {
 		super();
@@ -51,11 +51,11 @@ public class SubjectCategory {
 		this.name = name;
 	}
 
-	public Set<SubjectSubCategory> getSubjectCategoryIdToSubCategory() {
+	public List<SubjectSubCategory> getSubjectCategoryIdToSubCategory() {
 		return subjectCategoryIdToSubCategory;
 	}
 
-	public void setSubjectCategoryIdToSubCategory(Set<SubjectSubCategory> subjectCategoryIdToSubCategory) {
+	public void setSubjectCategoryIdToSubCategory(List<SubjectSubCategory> subjectCategoryIdToSubCategory) {
 		this.subjectCategoryIdToSubCategory = subjectCategoryIdToSubCategory;
 	}
 
