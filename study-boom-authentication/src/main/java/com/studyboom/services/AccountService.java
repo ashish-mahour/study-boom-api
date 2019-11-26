@@ -48,9 +48,9 @@ public class AccountService implements AccountResources {
 
 		if (userDetailsDTO.getType().equalsIgnoreCase(Constants.USER_TYPE.ADMIN.name()))
 			createAdmin(userDetailsDTO, users);
-		else if (userDetailsDTO.getType().equalsIgnoreCase(Constants.USER_TYPE.ADMIN.name()))
+		else if (userDetailsDTO.getType().equalsIgnoreCase(Constants.USER_TYPE.STUDENT.name()))
 			createStudent(userDetailsDTO, users);
-		else if (userDetailsDTO.getType().equalsIgnoreCase(Constants.USER_TYPE.ADMIN.name()))
+		else if (userDetailsDTO.getType().equalsIgnoreCase(Constants.USER_TYPE.PUBLISHER.name()))
 			createPublisher(userDetailsDTO, users);
 
 		return new ResponseEntity<AccountStatusDTO>(
@@ -81,14 +81,14 @@ public class AccountService implements AccountResources {
 		if (userDetailsDTO.getProfilePic() != null)
 			users.setProfilePic(userDetailsDTO.getProfilePic());
 
+		users = userRepository.save(users);
+
 		if (userDetailsDTO.getType().equalsIgnoreCase(Constants.USER_TYPE.ADMIN.name()))
 			updateAdmin(userDetailsDTO, users);
-		else if (userDetailsDTO.getType().equalsIgnoreCase(Constants.USER_TYPE.ADMIN.name()))
+		else if (userDetailsDTO.getType().equalsIgnoreCase(Constants.USER_TYPE.STUDENT.name()))
 			updateStudent(userDetailsDTO, users);
-		else if (userDetailsDTO.getType().equalsIgnoreCase(Constants.USER_TYPE.ADMIN.name()))
+		else if (userDetailsDTO.getType().equalsIgnoreCase(Constants.USER_TYPE.PUBLISHER.name()))
 			updatePublisher(userDetailsDTO, users);
-
-		userRepository.save(users);
 
 		return new ResponseEntity<AccountStatusDTO>(
 				new AccountStatusDTO(Constants.STATUS_OK, "User Updated!!", users.getId()), HttpStatus.OK);
@@ -97,7 +97,8 @@ public class AccountService implements AccountResources {
 	private void createPublisher(UserDetailsDTO userDetailsDTO, Users users) {
 		publisherRepository.save(new Publisher(users, userDetailsDTO.getFullName(), userDetailsDTO.getUsername(),
 				userDetailsDTO.getEmail(), userDetailsDTO.getMobile(), userDetailsDTO.getBankName(),
-				userDetailsDTO.getAccountNo(), userDetailsDTO.getIfscCode(), LocalDateTime.now(), LocalDateTime.now()));
+				userDetailsDTO.getBranchName(), userDetailsDTO.getAccountNo(), userDetailsDTO.getIfscCode(),
+				LocalDateTime.now(), LocalDateTime.now()));
 	}
 
 	private void createStudent(UserDetailsDTO userDetailsDTO, Users users) {
@@ -127,6 +128,8 @@ public class AccountService implements AccountResources {
 			publisher.setMobile(userDetailsDTO.getMobile());
 		if (userDetailsDTO.getBankName() != null)
 			publisher.setBankName(userDetailsDTO.getBankName());
+		if (userDetailsDTO.getBranchName() != null)
+			publisher.setBranch(userDetailsDTO.getBranchName());
 		if (userDetailsDTO.getAccountNo() != null)
 			publisher.setAccountNo(userDetailsDTO.getAccountNo());
 		if (userDetailsDTO.getIfscCode() != null)

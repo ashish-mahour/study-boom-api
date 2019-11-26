@@ -9,8 +9,9 @@ public class UserDetailsDTO {
 	private String password;
 	private String type;
 	private String profilePic;
-	private Long mobile;
+	private String mobile;
 	private String bankName;
+	private String branchName;
 	private String accountNo;
 	private String ifscCode;
 	private Boolean isActivated;
@@ -47,12 +48,20 @@ public class UserDetailsDTO {
 		this.password = password;
 	}
 
-	public Long getMobile() {
+	public String getMobile() {
 		return mobile;
 	}
 
-	public void setMobile(Long mobile) {
+	public void setMobile(String mobile) {
 		this.mobile = mobile;
+	}
+
+	public String getBranchName() {
+		return branchName;
+	}
+
+	public void setBranchName(String branchName) {
+		this.branchName = branchName;
 	}
 
 	public String getBankName() {

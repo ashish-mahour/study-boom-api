@@ -40,7 +40,7 @@ public class Student {
 	private String email;
 
 	@Column(name = "mobile", nullable = true)
-	private Long mobile;
+	private String mobile;
 
 	@Column(name = "registration_date", nullable = false)
 	private LocalDateTime registrationDate;
@@ -58,7 +58,7 @@ public class Student {
 		super();
 	}
 
-	public Student(Users userIdToStudent, String fullName, String username, String email, Long mobile,
+	public Student(Users userIdToStudent, String fullName, String username, String email, String mobile,
 			LocalDateTime registrationDate, LocalDateTime modifiedDate) {
 		super();
 		this.userIdToStudent = userIdToStudent;
@@ -110,11 +110,11 @@ public class Student {
 		this.email = email;
 	}
 
-	public Long getMobile() {
+	public String getMobile() {
 		return mobile;
 	}
 
-	public void setMobile(Long mobile) {
+	public void setMobile(String mobile) {
 		this.mobile = mobile;
 	}
 

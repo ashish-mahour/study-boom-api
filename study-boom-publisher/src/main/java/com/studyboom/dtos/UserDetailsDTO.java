@@ -8,7 +8,7 @@ public class UserDetailsDTO {
 	private String email;
 	private String password;
 	private String type;
-	private Long mobile;
+	private String mobile;
 	private String bankName;
 	private String accountNo;
 	private String ifscCode;
@@ -46,11 +46,11 @@ public class UserDetailsDTO {
 		this.password = password;
 	}
 
-	public Long getMobile() {
+	public String getMobile() {
 		return mobile;
 	}
 
-	public void setMobile(Long mobile) {
+	public void setMobile(String mobile) {
 		this.mobile = mobile;
 	}
 

@@ -40,10 +40,13 @@ public class Publisher {
 	private String email;
 
 	@Column(name = "mobile", nullable = true)
-	private Long mobile;
+	private String mobile;
 
 	@Column(name = "bank_name", nullable = true)
 	private String bankName;
+
+	@Column(name = "branch", nullable = true)
+	private String branch;
 
 	@Column(name = "account_no", nullable = true)
 	private String accountNo;
@@ -64,8 +67,8 @@ public class Publisher {
 		super();
 	}
 
-	public Publisher(Users userIdToPublisher, String fullName, String username, String email, Long mobile,
-			String bankName, String accountNo, String ifscCode, LocalDateTime registrationDate,
+	public Publisher(Users userIdToPublisher, String fullName, String username, String email, String mobile,
+			String bankName, String branch, String accountNo, String ifscCode, LocalDateTime registrationDate,
 			LocalDateTime modifiedDate) {
 		super();
 		this.userIdToPublisher = userIdToPublisher;
@@ -74,6 +77,7 @@ public class Publisher {
 		this.email = email;
 		this.mobile = mobile;
 		this.bankName = bankName;
+		this.branch = branch;
 		this.accountNo = accountNo;
 		this.ifscCode = ifscCode;
 		this.registrationDate = registrationDate;
@@ -120,11 +124,11 @@ public class Publisher {
 		this.email = email;
 	}
 
-	public Long getMobile() {
+	public String getMobile() {
 		return mobile;
 	}
 
-	public void setMobile(Long mobile) {
+	public void setMobile(String mobile) {
 		this.mobile = mobile;
 	}
 
@@ -176,12 +180,20 @@ public class Publisher {
 		this.uploadedByPublisherTestSeries = uploadedByPublisherTestSeries;
 	}
 
+	public String getBranch() {
+		return branch;
+	}
+
+	public void setBranch(String branch) {
+		this.branch = branch;
+	}
+
 	@Override
 	public String toString() {
 		return "Publisher [id=" + id + ", userIdToPublisher=" + userIdToPublisher + ", fullName=" + fullName
 				+ ", username=" + username + ", email=" + email + ", mobile=" + mobile + ", bankName=" + bankName
-				+ ", accountNo=" + accountNo + ", ifscCode=" + ifscCode + ", registrationDate=" + registrationDate
-				+ ", modifiedDate=" + modifiedDate + "]";
+				+ ", branch=" + branch + ", accountNo=" + accountNo + ", ifscCode=" + ifscCode + ", registrationDate="
+				+ registrationDate + ", modifiedDate=" + modifiedDate + "]";
 	}
 
 }
