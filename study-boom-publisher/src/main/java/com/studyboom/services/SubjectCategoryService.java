@@ -1,7 +1,6 @@
 package com.studyboom.services;
 
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,10 +18,8 @@ public class SubjectCategoryService implements SubjectCategoryResources {
 	private SubjectCategoryRepository subjectCategoryRepository;
 
 	@Override
-	public ResponseEntity<Set<SubjectCategory>> getCategories() {
-		Set<SubjectCategory> subjectCategorySet = new TreeSet<>();
-		subjectCategorySet.addAll(subjectCategoryRepository.findAll());
-		return new ResponseEntity<Set<SubjectCategory>>(subjectCategorySet, HttpStatus.OK);
+	public ResponseEntity<List<SubjectCategory>> getCategories() {
+		return new ResponseEntity<List<SubjectCategory>>(subjectCategoryRepository.findAll(), HttpStatus.OK);
 	}
 
 }

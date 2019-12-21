@@ -21,6 +21,7 @@ public class Users {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@JsonIgnore
 	private Long id;
 
 	@Column(name = "full_name", nullable = false)
@@ -33,6 +34,7 @@ public class Users {
 	private String email;
 
 	@Column(name = "password", nullable = false)
+	@JsonIgnore
 	private String password;
 
 	@Column(name = "type", nullable = false)
