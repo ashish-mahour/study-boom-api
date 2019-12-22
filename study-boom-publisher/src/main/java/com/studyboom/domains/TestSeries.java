@@ -1,5 +1,7 @@
 package com.studyboom.domains;
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -50,7 +52,13 @@ public class TestSeries {
 	private Integer passingMarks;
 
 	@Column(name = "price", nullable = false)
-	private Integer price;
+	private BigDecimal price;
+
+	@Column(name = "created_date", nullable = false)
+	private LocalDateTime createdDate;
+
+	@Column(name = "modified_date", nullable = false)
+	private LocalDateTime modifiedDate;
 
 	@OneToMany(fetch = FetchType.EAGER, targetEntity = TestSeriesData.class, mappedBy = "testSeriesIdToTestSeriesData")
 	private Set<TestSeriesData> testSeriesIdToTestSeriesData = new TreeSet<TestSeriesData>();
@@ -62,15 +70,20 @@ public class TestSeries {
 		super();
 	}
 
-	public TestSeries(String name, Integer totalQuestions, Integer durationMin, Integer totalMarks,
-			Integer passingMarks, Integer price) {
+	public TestSeries(Publisher uploadedByPublisher, String name, SubjectSubCategory subjectSubCategoryIdToTestSeries,
+			Integer totalQuestions, Integer durationMin, Integer totalMarks, Integer passingMarks, BigDecimal price,
+			LocalDateTime createdDate, LocalDateTime modifiedDate) {
 		super();
+		this.uploadedByPublisher = uploadedByPublisher;
 		this.name = name;
+		this.subjectSubCategoryIdToTestSeries = subjectSubCategoryIdToTestSeries;
 		this.totalQuestions = totalQuestions;
 		this.durationMin = durationMin;
 		this.totalMarks = totalMarks;
 		this.passingMarks = passingMarks;
 		this.price = price;
+		this.createdDate = createdDate;
+		this.modifiedDate = modifiedDate;
 	}
 
 	public Long getId() {
@@ -137,11 +150,11 @@ public class TestSeries {
 		this.passingMarks = passingMarks;
 	}
 
-	public Integer getPrice() {
+	public BigDecimal getPrice() {
 		return price;
 	}
 
-	public void setPrice(Integer price) {
+	public void setPrice(BigDecimal price) {
 		this.price = price;
 	}
 
@@ -161,12 +174,30 @@ public class TestSeries {
 		this.testSeriesIdToRatings = testSeriesIdToRatings;
 	}
 
+	public LocalDateTime getCreatedDate() {
+		return createdDate;
+	}
+
+	public void setCreatedDate(LocalDateTime createdDate) {
+		this.createdDate = createdDate;
+	}
+
+	public LocalDateTime getModifiedDate() {
+		return modifiedDate;
+	}
+
+	public void setModifiedDate(LocalDateTime modifiedDate) {
+		this.modifiedDate = modifiedDate;
+	}
+
 	@Override
 	public String toString() {
 		return "TestSeries [id=" + id + ", uploadedByPublisher=" + uploadedByPublisher + ", name=" + name
 				+ ", subjectSubCategoryIdToTestSeries=" + subjectSubCategoryIdToTestSeries + ", totalQuestions="
 				+ totalQuestions + ", durationMin=" + durationMin + ", totalMarks=" + totalMarks + ", passingMarks="
-				+ passingMarks + ", price=" + price + "]";
+				+ passingMarks + ", price=" + price + ", createdDate=" + createdDate + ", modifiedDate=" + modifiedDate
+				+ ", testSeriesIdToTestSeriesData=" + testSeriesIdToTestSeriesData + ", testSeriesIdToRatings="
+				+ testSeriesIdToRatings + "]";
 	}
 
 }

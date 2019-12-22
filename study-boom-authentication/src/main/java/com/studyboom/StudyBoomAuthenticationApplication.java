@@ -1,12 +1,17 @@
 package com.studyboom;
 
+import javax.sql.DataSource;
+
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.netflix.ribbon.RibbonClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.util.SocketUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
@@ -14,8 +19,11 @@ import org.springframework.web.client.RestTemplate;
 @SpringBootApplication
 @EnableDiscoveryClient
 @RibbonClient("study-boom-authentication")
-@EnableJpaRepositories("com.studyboom")
+@EnableJpaRepositories(basePackages = "com.studyboom", entityManagerFactoryRef = "entityManagerFactory")
 public class StudyBoomAuthenticationApplication {
+
+	@Autowired
+	private DataSource dataSource;
 
 	private static final Logger LOG = Logger.getLogger(StudyBoomAuthenticationApplication.class);
 
@@ -42,4 +50,17 @@ public class StudyBoomAuthenticationApplication {
 	public RestTemplate getRestTemplate() {
 		return new RestTemplate();
 	}
+
+	@Bean("entityManagerFactory")
+	public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
+		HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
+		vendorAdapter.setGenerateDdl(false);
+
+		LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
+		factory.setJpaVendorAdapter(vendorAdapter);
+		factory.setPackagesToScan("com.studyboom.domains");
+		factory.setDataSource(dataSource);
+		return factory;
+	}
+
 }
