@@ -1,8 +1,7 @@
 package com.studyboom.domains;
 
 import java.time.LocalDateTime;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -50,10 +49,10 @@ public class Student {
 	private LocalDateTime modifiedDate;
 
 	@OneToMany(fetch = FetchType.LAZY, targetEntity = TestSeriesRatings.class, mappedBy = "ratedByStudent")
-	private Set<TestSeriesRatings> ratedByStudent = new TreeSet<TestSeriesRatings>();
+	private List<TestSeriesRatings> ratedByStudent;
 
 	@OneToMany(fetch = FetchType.LAZY, targetEntity = StudentChoosenSubjectSubCategory.class, mappedBy = "subjectSubCategoryIdToChoosenSubCategories")
-	private Set<StudentChoosenSubjectSubCategory> subjectSubCategoryIdToChoosenSubCategories = new TreeSet<StudentChoosenSubjectSubCategory>();
+	private List<StudentChoosenSubjectSubCategory> subjectSubCategoryIdToChoosenSubCategories;
 
 	public Student() {
 		super();
@@ -135,20 +134,20 @@ public class Student {
 		this.modifiedDate = modifiedDate;
 	}
 
-	public Set<TestSeriesRatings> getRatedByStudent() {
+	public List<TestSeriesRatings> getRatedByStudent() {
 		return ratedByStudent;
 	}
 
-	public void setRatedByStudent(Set<TestSeriesRatings> ratedByStudent) {
+	public void setRatedByStudent(List<TestSeriesRatings> ratedByStudent) {
 		this.ratedByStudent = ratedByStudent;
 	}
 
-	public Set<StudentChoosenSubjectSubCategory> getSubjectSubCategoryIdToChoosenSubCategories() {
+	public List<StudentChoosenSubjectSubCategory> getSubjectSubCategoryIdToChoosenSubCategories() {
 		return subjectSubCategoryIdToChoosenSubCategories;
 	}
 
 	public void setSubjectSubCategoryIdToChoosenSubCategories(
-			Set<StudentChoosenSubjectSubCategory> subjectSubCategoryIdToChoosenSubCategories) {
+			List<StudentChoosenSubjectSubCategory> subjectSubCategoryIdToChoosenSubCategories) {
 		this.subjectSubCategoryIdToChoosenSubCategories = subjectSubCategoryIdToChoosenSubCategories;
 	}
 

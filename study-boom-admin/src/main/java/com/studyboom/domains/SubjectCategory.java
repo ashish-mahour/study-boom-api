@@ -1,6 +1,5 @@
 package com.studyboom.domains;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -24,7 +23,7 @@ public class SubjectCategory {
 	private String name;
 
 	@OneToMany(fetch = FetchType.EAGER, targetEntity = SubjectSubCategory.class, mappedBy = "subjectCategoryIdToSubCategory")
-	private List<SubjectSubCategory> subjectCategoryIdToSubCategory = new ArrayList<SubjectSubCategory>();
+	private List<SubjectSubCategory> subjectCategoryIdToSubCategory;
 
 	public SubjectCategory() {
 		super();

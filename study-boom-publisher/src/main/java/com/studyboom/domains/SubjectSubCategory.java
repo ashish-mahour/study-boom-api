@@ -1,7 +1,6 @@
 package com.studyboom.domains;
 
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -34,10 +33,10 @@ public class SubjectSubCategory {
 	private String name;
 
 	@OneToMany(fetch = FetchType.LAZY, targetEntity = TestSeries.class, mappedBy = "subjectSubCategoryIdToTestSeries")
-	private Set<TestSeries> subjectSubCategoryIdToTestSeries = new TreeSet<TestSeries>();
+	private List<TestSeries> subjectSubCategoryIdToTestSeries;
 
 	@OneToMany(fetch = FetchType.LAZY, targetEntity = TestSeriesData.class, mappedBy = "subjectSubCategoryIdToTestSeriesData")
-	private Set<TestSeriesData> subjectSubCategoryIdToTestSeriesData = new TreeSet<TestSeriesData>();
+	private List<TestSeriesData> subjectSubCategoryIdToTestSeriesData;
 
 	@OneToOne(fetch = FetchType.LAZY, targetEntity = StudentChoosenSubjectSubCategory.class, mappedBy = "subjectSubCategoryIdToChoosenSubCategories")
 	private StudentChoosenSubjectSubCategory subjectSubCategoryIdToChoosenSubCategories;
@@ -76,19 +75,19 @@ public class SubjectSubCategory {
 		this.name = name;
 	}
 
-	public Set<TestSeries> getSubjectSubCategoryIdToTestSeries() {
+	public List<TestSeries> getSubjectSubCategoryIdToTestSeries() {
 		return subjectSubCategoryIdToTestSeries;
 	}
 
-	public void setSubjectSubCategoryIdToTestSeries(Set<TestSeries> subjectSubCategoryIdToTestSeries) {
+	public void setSubjectSubCategoryIdToTestSeries(List<TestSeries> subjectSubCategoryIdToTestSeries) {
 		this.subjectSubCategoryIdToTestSeries = subjectSubCategoryIdToTestSeries;
 	}
 
-	public Set<TestSeriesData> getSubjectSubCategoryIdToTestSeriesData() {
+	public List<TestSeriesData> getSubjectSubCategoryIdToTestSeriesData() {
 		return subjectSubCategoryIdToTestSeriesData;
 	}
 
-	public void setSubjectSubCategoryIdToTestSeriesData(Set<TestSeriesData> subjectSubCategoryIdToTestSeriesData) {
+	public void setSubjectSubCategoryIdToTestSeriesData(List<TestSeriesData> subjectSubCategoryIdToTestSeriesData) {
 		this.subjectSubCategoryIdToTestSeriesData = subjectSubCategoryIdToTestSeriesData;
 	}
 

@@ -1,7 +1,6 @@
 package com.studyboom.domains;
 
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -21,6 +20,7 @@ public class Users {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@JsonIgnore
 	private Long id;
 
 	@Column(name = "full_name", nullable = false)
@@ -33,6 +33,7 @@ public class Users {
 	private String email;
 
 	@Column(name = "password", nullable = false)
+	@JsonIgnore
 	private String password;
 
 	@Column(name = "type", nullable = false)
@@ -55,7 +56,7 @@ public class Users {
 
 	@OneToMany(targetEntity = Requests.class, mappedBy = "userIdToRequests")
 	@JsonIgnore
-	private Set<Requests> userIdsFromRequests = new TreeSet<Requests>();
+	private List<Requests> userIdsFromRequests;
 
 	public Users() {
 	}
@@ -152,11 +153,11 @@ public class Users {
 		this.userIdFromPublisher = userIdFromPublisher;
 	}
 
-	public Set<Requests> getUserIdsFromRequests() {
+	public List<Requests> getUserIdsFromRequests() {
 		return userIdsFromRequests;
 	}
 
-	public void setUserIdsFromRequests(Set<Requests> userIdsFromRequests) {
+	public void setUserIdsFromRequests(List<Requests> userIdsFromRequests) {
 		this.userIdsFromRequests = userIdsFromRequests;
 	}
 

@@ -1,8 +1,7 @@
 package com.studyboom.domains;
 
 import java.time.LocalDateTime;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -23,6 +22,7 @@ public class Publisher {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@JsonIgnore
 	private Long id;
 
 	@JoinColumn(name = "user_id")
@@ -61,7 +61,7 @@ public class Publisher {
 	private LocalDateTime modifiedDate;
 
 	@OneToMany(fetch = FetchType.LAZY, targetEntity = TestSeries.class, mappedBy = "uploadedByPublisher")
-	private Set<TestSeries> uploadedByPublisherTestSeries = new TreeSet<TestSeries>();
+	private List<TestSeries> uploadedByPublisherTestSeries;
 
 	public Publisher() {
 		super();
@@ -172,11 +172,11 @@ public class Publisher {
 		this.modifiedDate = modifiedDate;
 	}
 
-	public Set<TestSeries> getUploadedByPublisherTestSeries() {
+	public List<TestSeries> getUploadedByPublisherTestSeries() {
 		return uploadedByPublisherTestSeries;
 	}
 
-	public void setUploadedByPublisherTestSeries(Set<TestSeries> uploadedByPublisherTestSeries) {
+	public void setUploadedByPublisherTestSeries(List<TestSeries> uploadedByPublisherTestSeries) {
 		this.uploadedByPublisherTestSeries = uploadedByPublisherTestSeries;
 	}
 

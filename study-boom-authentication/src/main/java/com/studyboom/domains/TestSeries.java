@@ -2,8 +2,7 @@ package com.studyboom.domains;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -61,10 +60,10 @@ public class TestSeries {
 	private LocalDateTime modifiedDate;
 
 	@OneToMany(fetch = FetchType.EAGER, targetEntity = TestSeriesData.class, mappedBy = "testSeriesIdToTestSeriesData")
-	private Set<TestSeriesData> testSeriesIdToTestSeriesData = new TreeSet<TestSeriesData>();
+	private List<TestSeriesData> testSeriesIdToTestSeriesData;
 
 	@OneToMany(fetch = FetchType.EAGER, targetEntity = TestSeriesRatings.class, mappedBy = "testSeriesIdToRatings")
-	private Set<TestSeriesRatings> testSeriesIdToRatings = new TreeSet<TestSeriesRatings>();
+	private List<TestSeriesRatings> testSeriesIdToRatings;
 
 	public TestSeries() {
 		super();
@@ -72,8 +71,7 @@ public class TestSeries {
 
 	public TestSeries(Publisher uploadedByPublisher, String name, SubjectSubCategory subjectSubCategoryIdToTestSeries,
 			Integer totalQuestions, Integer durationMin, Integer totalMarks, Integer passingMarks, BigDecimal price,
-			LocalDateTime createdDate, LocalDateTime modifiedDate, Set<TestSeriesData> testSeriesIdToTestSeriesData,
-			Set<TestSeriesRatings> testSeriesIdToRatings) {
+			LocalDateTime createdDate, LocalDateTime modifiedDate) {
 		super();
 		this.uploadedByPublisher = uploadedByPublisher;
 		this.name = name;
@@ -85,8 +83,6 @@ public class TestSeries {
 		this.price = price;
 		this.createdDate = createdDate;
 		this.modifiedDate = modifiedDate;
-		this.testSeriesIdToTestSeriesData = testSeriesIdToTestSeriesData;
-		this.testSeriesIdToRatings = testSeriesIdToRatings;
 	}
 
 	public Long getId() {
@@ -161,19 +157,19 @@ public class TestSeries {
 		this.price = price;
 	}
 
-	public Set<TestSeriesData> getTestSeriesIdToTestSeriesData() {
+	public List<TestSeriesData> getTestSeriesIdToTestSeriesData() {
 		return testSeriesIdToTestSeriesData;
 	}
 
-	public void setTestSeriesIdToTestSeriesData(Set<TestSeriesData> testSeriesIdToTestSeriesData) {
+	public void setTestSeriesIdToTestSeriesData(List<TestSeriesData> testSeriesIdToTestSeriesData) {
 		this.testSeriesIdToTestSeriesData = testSeriesIdToTestSeriesData;
 	}
 
-	public Set<TestSeriesRatings> getTestSeriesIdToRatings() {
+	public List<TestSeriesRatings> getTestSeriesIdToRatings() {
 		return testSeriesIdToRatings;
 	}
 
-	public void setTestSeriesIdToRatings(Set<TestSeriesRatings> testSeriesIdToRatings) {
+	public void setTestSeriesIdToRatings(List<TestSeriesRatings> testSeriesIdToRatings) {
 		this.testSeriesIdToRatings = testSeriesIdToRatings;
 	}
 
