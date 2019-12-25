@@ -59,10 +59,10 @@ public class TestSeries {
 	@Column(name = "modified_date", nullable = false)
 	private LocalDateTime modifiedDate;
 
-	@OneToMany(fetch = FetchType.EAGER, targetEntity = TestSeriesData.class, mappedBy = "testSeriesIdToTestSeriesData")
+	@OneToMany(fetch = FetchType.LAZY, targetEntity = TestSeriesData.class, mappedBy = "testSeriesIdToTestSeriesData")
 	private List<TestSeriesData> testSeriesIdToTestSeriesData;
 
-	@OneToMany(fetch = FetchType.EAGER, targetEntity = TestSeriesRatings.class, mappedBy = "testSeriesIdToRatings")
+	@OneToMany(fetch = FetchType.LAZY, targetEntity = TestSeriesRatings.class, mappedBy = "testSeriesIdToRatings")
 	private List<TestSeriesRatings> testSeriesIdToRatings;
 
 	public TestSeries() {
