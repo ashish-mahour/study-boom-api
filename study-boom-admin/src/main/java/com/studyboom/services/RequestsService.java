@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
@@ -22,6 +23,8 @@ import com.studyboom.resources.RequestResources;
 @Service
 public class RequestsService implements RequestResources {
 
+	private final Logger LOG = Logger.getLogger(RequestsService.class);
+
 	@Autowired
 	private RequestRepository requestRepository;
 
@@ -30,34 +33,47 @@ public class RequestsService implements RequestResources {
 
 	@Override
 	public ResponseEntity<List<Requests>> getRequests(int pageNo, int limit) {
-		return new ResponseEntity<List<Requests>>(
-				requestRepository.findAll(PageRequest.of(pageNo, limit, Direction.ASC, "dateCreated")).getContent(),
-				HttpStatus.OK);
+		try {
+			return new ResponseEntity<List<Requests>>(
+					requestRepository.findAll(PageRequest.of(pageNo, limit, Direction.ASC, "dateCreated")).getContent(),
+					HttpStatus.OK);
+		} catch (Exception e) {
+			LOG.error("Error while getting requests : " + e.getLocalizedMessage(), e);
+			return new ResponseEntity<List<Requests>>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
 
 	@Override
 	public ResponseEntity<RequestStatusDTO> modifyRequest(RequestsDetailsDTO requestsDetailsDTO) {
-		Optional<Users> usersOptional = userRepository.findById(requestsDetailsDTO.getUserId());
-		if (!usersOptional.isPresent())
+		try {
+			Optional<Users> usersOptional = userRepository.findById(requestsDetailsDTO.getUserId());
+			if (!usersOptional.isPresent())
+				return new ResponseEntity<RequestStatusDTO>(
+						new RequestStatusDTO(0, "No user found!!", requestsDetailsDTO.getUserId()),
+						HttpStatus.BAD_REQUEST);
+
+			Optional<Requests> requestOptional = requestRepository.findById(requestsDetailsDTO.getRequestId());
+			if (!requestOptional.isPresent())
+				return new ResponseEntity<RequestStatusDTO>(
+						new RequestStatusDTO(0, "No request found!!", requestsDetailsDTO.getUserId()),
+						HttpStatus.BAD_REQUEST);
+
+			Requests requests = requestOptional.get();
+			requests.setRequestText(requestsDetailsDTO.getRequestText());
+			requests.setStatus(requestsDetailsDTO.getStatus());
+			requests.setProcessed(requestsDetailsDTO.getProcessed());
+			requests.setLastModified(LocalDateTime.now());
+
+			requestRepository.save(requests);
+
 			return new ResponseEntity<RequestStatusDTO>(
-					new RequestStatusDTO(0, "No user found!!", requestsDetailsDTO.getUserId()), HttpStatus.BAD_REQUEST);
-
-		Optional<Requests> requestOptional = requestRepository.findById(requestsDetailsDTO.getRequestId());
-		if (!requestOptional.isPresent())
-			return new ResponseEntity<RequestStatusDTO>(
-					new RequestStatusDTO(0, "No request found!!", requestsDetailsDTO.getUserId()),
-					HttpStatus.BAD_REQUEST);
-
-		Requests requests = requestOptional.get();
-		requests.setRequestText(requestsDetailsDTO.getRequestText());
-		requests.setStatus(requestsDetailsDTO.getStatus());
-		requests.setProcessed(requestsDetailsDTO.getProcessed());
-		requests.setLastModified(LocalDateTime.now());
-
-		requestRepository.save(requests);
-
-		return new ResponseEntity<RequestStatusDTO>(
-				new RequestStatusDTO(1, "Request Modified!!", requestsDetailsDTO.getUserId()), HttpStatus.OK);
+					new RequestStatusDTO(1, "Request Modified!!", requestsDetailsDTO.getUserId()), HttpStatus.OK);
+		} catch (Exception e) {
+			LOG.error("Error while modify requests : " + e.getLocalizedMessage(), e);
+			return new ResponseEntity<RequestStatusDTO>(new RequestStatusDTO(1,
+					"Error while modify requests : " + e.getLocalizedMessage(), requestsDetailsDTO.getUserId()),
+					HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
 
 }
