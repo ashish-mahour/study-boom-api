@@ -38,10 +38,9 @@ public class StudentChoosenSubjectSubCategory {
 		super();
 	}
 
-	public StudentChoosenSubjectSubCategory(Long id, Student studentIdToChoosenSubCategories,
+	public StudentChoosenSubjectSubCategory(Student studentIdToChoosenSubCategories,
 			SubjectSubCategory subjectSubCategoryIdToChoosenSubCategories, Integer priorityLevel) {
 		super();
-		this.id = id;
 		this.studentIdToChoosenSubCategories = studentIdToChoosenSubCategories;
 		this.subjectSubCategoryIdToChoosenSubCategories = subjectSubCategoryIdToChoosenSubCategories;
 		this.priorityLevel = priorityLevel;

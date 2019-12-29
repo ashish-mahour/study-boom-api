@@ -54,6 +54,9 @@ public class Student {
 	@OneToMany(fetch = FetchType.LAZY, targetEntity = StudentChoosenSubjectSubCategory.class, mappedBy = "subjectSubCategoryIdToChoosenSubCategories")
 	private List<StudentChoosenSubjectSubCategory> subjectSubCategoryIdToChoosenSubCategories;
 
+	@OneToMany(fetch = FetchType.LAZY, targetEntity = StudentPerfromedTest.class, mappedBy = "performendByStudent")
+	private List<StudentPerfromedTest> testSeriesPerformendByStudent;
+
 	public Student() {
 		super();
 	}
@@ -149,6 +152,14 @@ public class Student {
 	public void setSubjectSubCategoryIdToChoosenSubCategories(
 			List<StudentChoosenSubjectSubCategory> subjectSubCategoryIdToChoosenSubCategories) {
 		this.subjectSubCategoryIdToChoosenSubCategories = subjectSubCategoryIdToChoosenSubCategories;
+	}
+
+	public List<StudentPerfromedTest> getTestSeriesPerformendByStudent() {
+		return testSeriesPerformendByStudent;
+	}
+
+	public void setTestSeriesPerformendByStudent(List<StudentPerfromedTest> testSeriesPerformendByStudent) {
+		this.testSeriesPerformendByStudent = testSeriesPerformendByStudent;
 	}
 
 	@Override

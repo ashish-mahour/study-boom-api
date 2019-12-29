@@ -1,5 +1,7 @@
 package com.studyboom.dtos;
 
+import java.util.List;
+
 public class UserDetailsDTO {
 
 	private Long id;
@@ -15,6 +17,32 @@ public class UserDetailsDTO {
 	private String accountNo;
 	private String ifscCode;
 	private Boolean isActivated;
+	private List<Long> choosedCategories;
+	private List<Long> choosedSubCategories;
+
+	public UserDetailsDTO() {
+	}
+
+	public UserDetailsDTO(Long id, String fullName, String username, String email, String password, String type,
+			String profilePic, String mobileNo, String bankName, String branchName, String accountNo, String ifscCode,
+			Boolean isActivated, List<Long> choosedCategories, List<Long> choosedSubCategories) {
+		super();
+		this.id = id;
+		this.fullName = fullName;
+		this.username = username;
+		this.email = email;
+		this.password = password;
+		this.type = type;
+		this.profilePic = profilePic;
+		this.mobileNo = mobileNo;
+		this.bankName = bankName;
+		this.branchName = branchName;
+		this.accountNo = accountNo;
+		this.ifscCode = ifscCode;
+		this.isActivated = isActivated;
+		this.choosedCategories = choosedCategories;
+		this.choosedSubCategories = choosedSubCategories;
+	}
 
 	public String getFullName() {
 		return fullName;
@@ -88,10 +116,6 @@ public class UserDetailsDTO {
 		this.ifscCode = ifscCode;
 	}
 
-	public UserDetailsDTO() {
-		super();
-	}
-
 	public String getType() {
 		return type;
 	}
@@ -122,6 +146,31 @@ public class UserDetailsDTO {
 
 	public void setProfilePic(String profilePic) {
 		this.profilePic = profilePic;
+	}
+
+	public List<Long> getChoosedCategories() {
+		return choosedCategories;
+	}
+
+	public void setChoosedCategories(List<Long> choosedCategories) {
+		this.choosedCategories = choosedCategories;
+	}
+
+	public List<Long> getChoosedSubCategories() {
+		return choosedSubCategories;
+	}
+
+	public void setChoosedSubCategories(List<Long> choosedSubCategories) {
+		this.choosedSubCategories = choosedSubCategories;
+	}
+
+	@Override
+	public String toString() {
+		return "UserDetailsDTO [id=" + id + ", fullName=" + fullName + ", username=" + username + ", email=" + email
+				+ ", password=" + password + ", type=" + type + ", profilePic=" + profilePic + ", mobileNo=" + mobileNo
+				+ ", bankName=" + bankName + ", branchName=" + branchName + ", accountNo=" + accountNo + ", ifscCode="
+				+ ifscCode + ", isActivated=" + isActivated + ", choosedCategories=" + choosedCategories
+				+ ", choosedSubCategories=" + choosedSubCategories + "]";
 	}
 
 }

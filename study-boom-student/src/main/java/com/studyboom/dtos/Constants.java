@@ -12,4 +12,10 @@ public interface Constants {
 	enum REQUEST_STATUS {
 		NOT_STARTED, PROCESSING, SUCCESS, FAILED
 	}
+	
+	String[] reportsColumns = new String[] {
+		"Test Series Name", "Attemped (%)", "Total Marks", "Marks Obtained"
+	};
+	
+	int reportDefaultColumnSize = 20;
 }

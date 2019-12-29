@@ -65,6 +65,9 @@ public class TestSeries {
 	@OneToMany(fetch = FetchType.LAZY, targetEntity = TestSeriesRatings.class, mappedBy = "testSeriesIdToRatings")
 	private List<TestSeriesRatings> testSeriesIdToRatings;
 
+	@OneToMany(fetch = FetchType.LAZY, targetEntity = StudentPerfromedTest.class, mappedBy = "testSeriesPerformed")
+	private List<StudentPerfromedTest> testSeriesPerformedByStudents;
+
 	public TestSeries() {
 		super();
 	}
@@ -189,6 +192,14 @@ public class TestSeries {
 		this.modifiedDate = modifiedDate;
 	}
 
+	public List<StudentPerfromedTest> getTestSeriesPerformedByStudents() {
+		return testSeriesPerformedByStudents;
+	}
+
+	public void setTestSeriesPerformedByStudents(List<StudentPerfromedTest> testSeriesPerformedByStudents) {
+		this.testSeriesPerformedByStudents = testSeriesPerformedByStudents;
+	}
+
 	@Override
 	public String toString() {
 		return "TestSeries [id=" + id + ", uploadedByPublisher=" + uploadedByPublisher + ", name=" + name
@@ -196,7 +207,7 @@ public class TestSeries {
 				+ totalQuestions + ", durationMin=" + durationMin + ", totalMarks=" + totalMarks + ", passingMarks="
 				+ passingMarks + ", price=" + price + ", createdDate=" + createdDate + ", modifiedDate=" + modifiedDate
 				+ ", testSeriesIdToTestSeriesData=" + testSeriesIdToTestSeriesData + ", testSeriesIdToRatings="
-				+ testSeriesIdToRatings + "]";
+				+ testSeriesIdToRatings + ", testSeriesPerformedByStudents=" + testSeriesPerformedByStudents + "]";
 	}
 
 }

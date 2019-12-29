@@ -17,14 +17,15 @@ import com.studyboom.dtos.RequestsDetailsDTO;
 @RestController
 @RequestMapping("api")
 public interface RequestResources {
-	
+
 	@GetMapping("/get/requests")
-	public ResponseEntity<Set<Requests>> getRequestsByUserId(@RequestParam("userId") Long userId, @RequestParam("pageNo") int pageNo, @RequestParam("limit") int limit);
-	
+	public ResponseEntity<Set<Requests>> getRequestsByUserId(@RequestParam("userId") Long userId,
+			@RequestParam("pageNo") int pageNo, @RequestParam("limit") int limit);
+
 	@PostMapping("/add/request")
 	public ResponseEntity<RequestStatusDTO> addRequest(@RequestBody RequestsDetailsDTO requestsDetailsDTO);
-	
+
 	@PostMapping("/modify/request")
 	public ResponseEntity<RequestStatusDTO> modifyRequest(@RequestBody RequestsDetailsDTO requestsDetailsDTO);
-	
+
 }

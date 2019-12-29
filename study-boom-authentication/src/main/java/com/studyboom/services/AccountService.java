@@ -13,6 +13,8 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 import com.studyboom.domains.Admin;
 import com.studyboom.domains.Publisher;
 import com.studyboom.domains.Student;
+import com.studyboom.domains.StudentChoosenSubjectSubCategory;
+import com.studyboom.domains.SubjectSubCategory;
 import com.studyboom.domains.Users;
 import com.studyboom.dtos.AccountStatusDTO;
 import com.studyboom.dtos.ChangePasswordDTO;
@@ -20,7 +22,9 @@ import com.studyboom.dtos.Constants;
 import com.studyboom.dtos.UserDetailsDTO;
 import com.studyboom.repositories.AdminRepository;
 import com.studyboom.repositories.PublisherRepository;
+import com.studyboom.repositories.StudentChoosenSubjectSubCategoryRepository;
 import com.studyboom.repositories.StudentRepository;
+import com.studyboom.repositories.SubjectSubCategoryRepository;
 import com.studyboom.repositories.UserRepository;
 import com.studyboom.resources.AccountResources;
 
@@ -38,6 +42,12 @@ public class AccountService implements AccountResources {
 
 	@Autowired
 	private PublisherRepository publisherRepository;
+
+	@Autowired
+	private SubjectSubCategoryRepository subjectSubCategoryRepository;
+
+	@Autowired
+	private StudentChoosenSubjectSubCategoryRepository studentChoosenSubjectSubCategoryRepository;
 
 	ObjectWriter writer = new ObjectMapper().writer();
 
@@ -65,7 +75,7 @@ public class AccountService implements AccountResources {
 					"User is not Present in the Database!!", userDetailsDTO.getId()), HttpStatus.OK);
 
 		Users users = userOptional.get();
-		
+
 		/*
 		 * MODIFING USER DETAILS
 		 */
@@ -102,8 +112,18 @@ public class AccountService implements AccountResources {
 	}
 
 	private void createStudent(UserDetailsDTO userDetailsDTO, Users users) {
-		studentRepository.save(new Student(users, userDetailsDTO.getFullName(), userDetailsDTO.getUsername(),
-				userDetailsDTO.getEmail(), userDetailsDTO.getMobileNo(), LocalDateTime.now(), LocalDateTime.now()));
+		Student student = studentRepository.save(new Student(users, userDetailsDTO.getFullName(),
+				userDetailsDTO.getUsername(), userDetailsDTO.getEmail(), userDetailsDTO.getMobileNo(),
+				LocalDateTime.now(), LocalDateTime.now()));
+		for (Long subCategoryId : userDetailsDTO.getChoosedSubCategories()) {
+			Optional<SubjectSubCategory> subjectSubCategoryOptional = subjectSubCategoryRepository
+					.findById(subCategoryId);
+			int priority = 0;
+			if (subjectSubCategoryOptional.isPresent())
+				studentChoosenSubjectSubCategoryRepository.save(
+						new StudentChoosenSubjectSubCategory(student, subjectSubCategoryOptional.get(), ++priority));
+		}
+
 	}
 
 	private void createAdmin(UserDetailsDTO userDetailsDTO, Users users) {
@@ -159,7 +179,20 @@ public class AccountService implements AccountResources {
 
 		student.setModifiedDate(LocalDateTime.now());
 
-		studentRepository.save(student);
+		student = studentRepository.save(student);
+
+		for (StudentChoosenSubjectSubCategory choosenSubjectSubCategory : student
+				.getSubjectSubCategoryIdToChoosenSubCategories())
+			studentChoosenSubjectSubCategoryRepository.delete(choosenSubjectSubCategory);
+
+		for (Long subCategoryId : userDetailsDTO.getChoosedSubCategories()) {
+			Optional<SubjectSubCategory> subjectSubCategoryOptional = subjectSubCategoryRepository
+					.findById(subCategoryId);
+			int priority = 0;
+			if (subjectSubCategoryOptional.isPresent())
+				studentChoosenSubjectSubCategoryRepository.save(
+						new StudentChoosenSubjectSubCategory(student, subjectSubCategoryOptional.get(), ++priority));
+		}
 
 		return true;
 
