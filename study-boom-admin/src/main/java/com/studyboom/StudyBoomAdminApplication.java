@@ -24,7 +24,7 @@ public class StudyBoomAdminApplication {
 	@Autowired
 	private DataSource dataSource;
 
-	private static final Logger LOG = Logger.getLogger(StudyBoomAdminApplication.class);
+	private static final Logger LOG = Logger.getLogger("OUT");
 
 	public static void main(String[] args) {
 		setRandomPort(11001, 11999);

@@ -33,10 +33,10 @@ public class StudentPerfromedTest {
 	@JsonIgnore
 	private TestSeries testSeriesPerformed;
 
-	@Column(name = "attemped", nullable = false)
+	@Column(name = "attempted", nullable = false)
 	private Integer attemped;
 
-	@Column(name = "unattemped", nullable = false)
+	@Column(name = "unattempted", nullable = false)
 	private Integer unattemped;
 
 	@Column(name = "total_score", nullable = false)

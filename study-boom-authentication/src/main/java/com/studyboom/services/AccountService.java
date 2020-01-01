@@ -32,7 +32,7 @@ import com.studyboom.resources.AccountResources;
 @Service
 public class AccountService implements AccountResources {
 
-	private final Logger LOG = Logger.getLogger(AccountService.class);
+	private final Logger LOG = Logger.getLogger("OUT");
 
 	@Autowired
 	private UserRepository userRepository;
@@ -136,17 +136,8 @@ public class AccountService implements AccountResources {
 
 	private void createStudent(UserDetailsDTO userDetailsDTO, Users users) {
 		try {
-			Student student = studentRepository.save(new Student(users, userDetailsDTO.getFullName(),
-					userDetailsDTO.getUsername(), userDetailsDTO.getEmail(), userDetailsDTO.getMobileNo(),
-					LocalDateTime.now(), LocalDateTime.now()));
-			for (Long subCategoryId : userDetailsDTO.getChoosedSubCategories()) {
-				Optional<SubjectSubCategory> subjectSubCategoryOptional = subjectSubCategoryRepository
-						.findById(subCategoryId);
-				int priority = 0;
-				if (subjectSubCategoryOptional.isPresent())
-					studentChoosenSubjectSubCategoryRepository.save(new StudentChoosenSubjectSubCategory(student,
-							subjectSubCategoryOptional.get(), ++priority));
-			}
+			studentRepository.save(new Student(users, userDetailsDTO.getFullName(), userDetailsDTO.getUsername(),
+					userDetailsDTO.getEmail(), userDetailsDTO.getMobileNo(), LocalDateTime.now(), LocalDateTime.now()));
 		} catch (Exception e) {
 			LOG.error("Error while creating student : " + e.getLocalizedMessage(), e);
 		}
@@ -170,13 +161,20 @@ public class AccountService implements AccountResources {
 				return false;
 
 			Publisher publisher = publisherOptional.get();
-			publisher.setFullName(userDetailsDTO.getFullName());
-			publisher.setUsername(userDetailsDTO.getUsername());
-			publisher.setEmail(userDetailsDTO.getEmail());
-			publisher.setMobile(userDetailsDTO.getMobileNo());
-			publisher.setBankName(userDetailsDTO.getBankName());
-			publisher.setAccountNo(userDetailsDTO.getAccountNo());
-			publisher.setIfscCode(userDetailsDTO.getIfscCode());
+			if (userDetailsDTO.getFullName() != null)
+				publisher.setFullName(userDetailsDTO.getFullName());
+			if (userDetailsDTO.getUsername() != null)
+				publisher.setUsername(userDetailsDTO.getUsername());
+			if (userDetailsDTO.getEmail() != null)
+				publisher.setEmail(userDetailsDTO.getEmail());
+			if (userDetailsDTO.getMobileNo() != null)
+				publisher.setMobile(userDetailsDTO.getMobileNo());
+			if (userDetailsDTO.getBankName() != null)
+				publisher.setBankName(userDetailsDTO.getBankName());
+			if (userDetailsDTO.getAccountNo() != null)
+				publisher.setAccountNo(userDetailsDTO.getAccountNo());
+			if (userDetailsDTO.getIfscCode() != null)
+				publisher.setIfscCode(userDetailsDTO.getIfscCode());
 			publisher.setModifiedDate(LocalDateTime.now());
 
 			publisherRepository.save(publisher);
@@ -194,14 +192,31 @@ public class AccountService implements AccountResources {
 				return false;
 
 			Student student = studentOptional.get();
-			student.setFullName(userDetailsDTO.getFullName());
-			student.setFullName(userDetailsDTO.getFullName());
-			student.setUsername(userDetailsDTO.getUsername());
-			student.setEmail(userDetailsDTO.getEmail());
-			student.setMobile(userDetailsDTO.getMobileNo());
+			if (userDetailsDTO.getFullName() != null)
+				student.setFullName(userDetailsDTO.getFullName());
+			if (userDetailsDTO.getUsername() != null)
+				student.setUsername(userDetailsDTO.getUsername());
+			if (userDetailsDTO.getEmail() != null)
+				student.setEmail(userDetailsDTO.getEmail());
+			if (userDetailsDTO.getMobileNo() != null)
+				student.setMobile(userDetailsDTO.getMobileNo());
 			student.setModifiedDate(LocalDateTime.now());
 
 			studentRepository.save(student);
+
+			studentChoosenSubjectSubCategoryRepository
+					.deleteAll(student.getSubjectSubCategoryIdToChoosenSubCategories());
+
+			if (userDetailsDTO.getChoosedSubCategories() == null)
+				return false;
+			for (Long subCategoryId : userDetailsDTO.getChoosedSubCategories()) {
+				Optional<SubjectSubCategory> subjectSubCategoryOptional = subjectSubCategoryRepository
+						.findById(subCategoryId);
+				int priority = 0;
+				if (subjectSubCategoryOptional.isPresent())
+					studentChoosenSubjectSubCategoryRepository.save(new StudentChoosenSubjectSubCategory(student,
+							subjectSubCategoryOptional.get(), ++priority));
+			}
 
 			return true;
 		} catch (Exception e) {
@@ -218,11 +233,14 @@ public class AccountService implements AccountResources {
 				return false;
 
 			Admin admin = adminOptional.get();
-			admin.setFullName(userDetailsDTO.getFullName());
-			admin.setFullName(userDetailsDTO.getFullName());
-			admin.setUsername(userDetailsDTO.getUsername());
-			admin.setEmail(userDetailsDTO.getEmail());
-			admin.setMobile(userDetailsDTO.getMobileNo());
+			if (userDetailsDTO.getFullName() != null)
+				admin.setFullName(userDetailsDTO.getFullName());
+			if (userDetailsDTO.getUsername() != null)
+				admin.setUsername(userDetailsDTO.getUsername());
+			if (userDetailsDTO.getEmail() != null)
+				admin.setEmail(userDetailsDTO.getEmail());
+			if (userDetailsDTO.getMobileNo() != null)
+				admin.setMobile(userDetailsDTO.getMobileNo());
 			admin.setModifiedDate(LocalDateTime.now());
 
 			adminRepository.save(admin);

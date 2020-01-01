@@ -23,7 +23,7 @@ import com.studyboom.resources.SubjectCategoryResources;
 @Service
 public class SubjectCategoryService implements SubjectCategoryResources {
 
-	private final Logger LOG = Logger.getLogger(SubjectCategoryService.class);
+	private final Logger LOG = Logger.getLogger("OUT");
 
 	@Autowired
 	private SubjectCategoryRepository subjectCategoryRepository;

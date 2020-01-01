@@ -1,8 +1,8 @@
 package com.studyboom.services;
 
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,13 +15,18 @@ import com.studyboom.resources.SubjectCategoryResources;
 @Service
 public class SubjectCategoryService implements SubjectCategoryResources {
 
+	private final Logger LOG = Logger.getLogger("OUT");
+
 	@Autowired
 	private SubjectCategoryRepository subjectCategoryRepository;
 
 	@Override
-	public ResponseEntity<Set<SubjectCategory>> getCategories() {
-		Set<SubjectCategory> subjectCategorySet = new TreeSet<>();
-		subjectCategorySet.addAll(subjectCategoryRepository.findAll());
-		return new ResponseEntity<Set<SubjectCategory>>(subjectCategorySet, HttpStatus.OK);
+	public ResponseEntity<List<SubjectCategory>> getCategories() {
+		try {
+			return new ResponseEntity<List<SubjectCategory>>(subjectCategoryRepository.findAll(), HttpStatus.OK);
+		} catch (Exception e) {
+			LOG.error("Error while getting Subject Categories : " + e.getLocalizedMessage(), e);
+			return new ResponseEntity<List<SubjectCategory>>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
 }

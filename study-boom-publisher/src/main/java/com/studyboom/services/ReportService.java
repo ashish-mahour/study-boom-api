@@ -31,7 +31,7 @@ import com.studyboom.resources.ReportResources;
 @Service
 public class ReportService implements ReportResources {
 
-	private final Logger LOG = Logger.getLogger(ReportService.class);
+	private final Logger LOG = Logger.getLogger("OUT");
 	private final DateTimeFormatter DATE_TIME_FORMAT = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
 	@Autowired

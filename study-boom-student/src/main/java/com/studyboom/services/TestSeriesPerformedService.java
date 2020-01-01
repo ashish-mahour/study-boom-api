@@ -31,7 +31,7 @@ import com.studyboom.resources.TestSeriesPerformedResource;
 @Service
 public class TestSeriesPerformedService implements TestSeriesPerformedResource {
 
-	private final Logger LOG = Logger.getLogger(TestSeriesPerformedService.class);
+	private final Logger LOG = Logger.getLogger("OUT");
 
 	@Autowired
 	private StudentRepository studentRepository;

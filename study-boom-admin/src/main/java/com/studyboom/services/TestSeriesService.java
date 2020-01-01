@@ -20,7 +20,7 @@ import com.studyboom.resources.TestSeriesResources;
 @Service
 public class TestSeriesService implements TestSeriesResources {
 
-	private final Logger LOG = Logger.getLogger(TestSeriesService.class);
+	private final Logger LOG = Logger.getLogger("OUT");
 
 	@Autowired
 	private TestSeriesReposiroty testSeriesRepository;

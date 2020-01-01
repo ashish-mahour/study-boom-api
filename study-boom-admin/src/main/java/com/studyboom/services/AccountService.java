@@ -28,7 +28,7 @@ import com.studyboom.resources.AccountResources;
 @Service
 public class AccountService implements AccountResources {
 
-	private final Logger LOG = Logger.getLogger(AccountService.class);
+	private final Logger LOG = Logger.getLogger("OUT");
 
 	@Autowired
 	private UserRepository userRepository;

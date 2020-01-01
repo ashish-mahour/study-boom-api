@@ -23,7 +23,7 @@ import com.studyboom.resources.RequestResources;
 @Service
 public class RequestsService implements RequestResources {
 
-	private final Logger LOG = Logger.getLogger(RequestsService.class);
+	private final Logger LOG = Logger.getLogger("OUT");
 
 	@Autowired
 	private RequestRepository requestRepository;

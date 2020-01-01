@@ -1,6 +1,6 @@
 package com.studyboom.resources;
 
-import java.util.Set;
+import java.util.List;
 
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -14,5 +14,5 @@ import com.studyboom.domains.SubjectCategory;
 public interface SubjectCategoryResources {
 
 	@GetMapping(path="/get/subject/categories", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Set<SubjectCategory>> getCategories();
+	public ResponseEntity<List<SubjectCategory>> getCategories();
 }
