@@ -11,7 +11,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -38,8 +37,8 @@ public class SubjectSubCategory {
 	@OneToMany(fetch = FetchType.LAZY, targetEntity = TestSeriesData.class, mappedBy = "subjectSubCategoryIdToTestSeriesData")
 	private List<TestSeriesData> subjectSubCategoryIdToTestSeriesData;
 
-	@OneToOne(fetch = FetchType.LAZY, targetEntity = StudentChoosenSubjectSubCategory.class, mappedBy = "subjectSubCategoryIdToChoosenSubCategories")
-	private StudentChoosenSubjectSubCategory subjectSubCategoryIdToChoosenSubCategories;
+	@OneToMany(fetch = FetchType.LAZY, targetEntity = StudentChoosenSubjectSubCategory.class, mappedBy = "subjectSubCategoryIdToChoosenSubCategories")
+	private List<StudentChoosenSubjectSubCategory> subjectSubCategoryIdToChoosenSubCategories;
 
 	public SubjectSubCategory() {
 		super();
@@ -91,12 +90,12 @@ public class SubjectSubCategory {
 		this.subjectSubCategoryIdToTestSeriesData = subjectSubCategoryIdToTestSeriesData;
 	}
 
-	public StudentChoosenSubjectSubCategory getSubjectSubCategoryIdToChoosenSubCategories() {
+	public List<StudentChoosenSubjectSubCategory> getSubjectSubCategoryIdToChoosenSubCategories() {
 		return subjectSubCategoryIdToChoosenSubCategories;
 	}
 
 	public void setSubjectSubCategoryIdToChoosenSubCategories(
-			StudentChoosenSubjectSubCategory subjectSubCategoryIdToChoosenSubCategories) {
+			List<StudentChoosenSubjectSubCategory> subjectSubCategoryIdToChoosenSubCategories) {
 		this.subjectSubCategoryIdToChoosenSubCategories = subjectSubCategoryIdToChoosenSubCategories;
 	}
 
