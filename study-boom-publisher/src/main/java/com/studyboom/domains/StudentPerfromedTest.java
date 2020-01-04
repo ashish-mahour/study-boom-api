@@ -25,7 +25,6 @@ public class StudentPerfromedTest {
 
 	@JoinColumn(name = "performed_by")
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JsonIgnore
 	private Student performendByStudent;
 
 	@JoinColumn(name = "test_performed")

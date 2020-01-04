@@ -54,6 +54,7 @@ public class Student {
 	private List<StudentChoosenSubjectSubCategory> studentIdToChoosenSubCategories;
 
 	@OneToMany(fetch = FetchType.LAZY, targetEntity = StudentPerfromedTest.class, mappedBy = "performendByStudent")
+	@JsonIgnore
 	private List<StudentPerfromedTest> testSeriesPerformendByStudent;
 
 	public Student() {
