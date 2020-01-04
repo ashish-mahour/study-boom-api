@@ -32,12 +32,15 @@ public class SubjectSubCategory {
 	private String name;
 
 	@OneToMany(fetch = FetchType.LAZY, targetEntity = TestSeries.class, mappedBy = "subjectSubCategoryIdToTestSeries")
+	@JsonIgnore
 	private List<TestSeries> subjectSubCategoryIdToTestSeries;
 
 	@OneToMany(fetch = FetchType.LAZY, targetEntity = TestSeriesData.class, mappedBy = "subjectSubCategoryIdToTestSeriesData")
+	@JsonIgnore
 	private List<TestSeriesData> subjectSubCategoryIdToTestSeriesData;
 
 	@OneToMany(fetch = FetchType.LAZY, targetEntity = StudentChoosenSubjectSubCategory.class, mappedBy = "subjectSubCategoryIdToChoosenSubCategories")
+	@JsonIgnore
 	private List<StudentChoosenSubjectSubCategory> subjectSubCategoryIdToChoosenSubCategories;
 
 	public SubjectSubCategory() {

@@ -22,7 +22,6 @@ public class Publisher {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@JsonIgnore
 	private Long id;
 
 	@JoinColumn(name = "user_id")
@@ -61,6 +60,7 @@ public class Publisher {
 	private LocalDateTime modifiedDate;
 
 	@OneToMany(fetch = FetchType.LAZY, targetEntity = TestSeries.class, mappedBy = "uploadedByPublisher")
+	@JsonIgnore
 	private List<TestSeries> uploadedByPublisherTestSeries;
 
 	public Publisher() {

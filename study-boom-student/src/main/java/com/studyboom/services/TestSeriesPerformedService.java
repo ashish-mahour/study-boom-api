@@ -57,7 +57,7 @@ public class TestSeriesPerformedService implements TestSeriesPerformedResource {
 			Student student = studentOptional.get();
 
 			List<StudentChoosenSubjectSubCategory> studentChoosenSubjectSubCategories = student
-					.getSubjectSubCategoryIdToChoosenSubCategories();
+					.getStudentIdToChoosenSubCategories();
 
 			if (studentChoosenSubjectSubCategories.size() == 0)
 				return new ResponseEntity<List<TestSeries>>(HttpStatus.BAD_REQUEST);
@@ -69,6 +69,7 @@ public class TestSeriesPerformedService implements TestSeriesPerformedResource {
 
 			testSeries = testSeriesReposiroty.findBySubjectSubCategoryIdToTestSeriesIn(studentChoosedSubCategories,
 					PageRequest.of(pageNo, limit, Direction.ASC, "name"));
+
 			return new ResponseEntity<List<TestSeries>>(testSeries, HttpStatus.OK);
 		} catch (Exception e) {
 			LOG.error("Error while getting test series by categories : " + e.getLocalizedMessage(), e);
@@ -86,8 +87,8 @@ public class TestSeriesPerformedService implements TestSeriesPerformedResource {
 				return new ResponseEntity<List<StudentPerfromedTest>>(HttpStatus.BAD_REQUEST);
 
 			Student student = studentOptional.get();
-			return new ResponseEntity<List<StudentPerfromedTest>>(student.getTestSeriesPerformendByStudent(),
-					HttpStatus.OK);
+			return new ResponseEntity<List<StudentPerfromedTest>>(
+					studentPerformedTestRepository.findByPerformendByStudent(student), HttpStatus.OK);
 		} catch (Exception e) {
 			LOG.error("Error while getting test series by ID : " + e.getLocalizedMessage(), e);
 			return new ResponseEntity<List<StudentPerfromedTest>>(HttpStatus.INTERNAL_SERVER_ERROR);

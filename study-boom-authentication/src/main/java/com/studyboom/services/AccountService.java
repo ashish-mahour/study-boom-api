@@ -204,11 +204,12 @@ public class AccountService implements AccountResources {
 
 			studentRepository.save(student);
 
-			studentChoosenSubjectSubCategoryRepository
-					.deleteAll(student.getSubjectSubCategoryIdToChoosenSubCategories());
-
 			if (userDetailsDTO.getChoosedSubCategories() == null)
 				return false;
+
+			studentChoosenSubjectSubCategoryRepository
+					.deleteAll(student.getStudentIdToChoosenSubCategories());
+			
 			for (Long subCategoryId : userDetailsDTO.getChoosedSubCategories()) {
 				Optional<SubjectSubCategory> subjectSubCategoryOptional = subjectSubCategoryRepository
 						.findById(subCategoryId);

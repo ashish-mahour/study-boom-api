@@ -15,8 +15,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 @Entity
 @Table(name = "test_series")
 public class TestSeries {
@@ -27,7 +25,6 @@ public class TestSeries {
 
 	@JoinColumn(name = "uploaded_by")
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JsonIgnore
 	private Publisher uploadedByPublisher;
 
 	@Column(name = "name", nullable = false)
@@ -35,7 +32,6 @@ public class TestSeries {
 
 	@JoinColumn(name = "subject_sub_category_id")
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JsonIgnore
 	private SubjectSubCategory subjectSubCategoryIdToTestSeries;
 
 	@Column(name = "total_questions", nullable = false)

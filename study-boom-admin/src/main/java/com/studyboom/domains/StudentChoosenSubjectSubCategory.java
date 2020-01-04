@@ -8,7 +8,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -27,8 +26,7 @@ public class StudentChoosenSubjectSubCategory {
 	private Student studentIdToChoosenSubCategories;
 
 	@JoinColumn(name = "subject_sub_category_id")
-	@OneToOne(fetch = FetchType.LAZY)
-	@JsonIgnore
+	@ManyToOne(fetch = FetchType.LAZY)
 	private SubjectSubCategory subjectSubCategoryIdToChoosenSubCategories;
 
 	@Column(name = "priority_level", nullable = true)
@@ -38,10 +36,9 @@ public class StudentChoosenSubjectSubCategory {
 		super();
 	}
 
-	public StudentChoosenSubjectSubCategory(Long id, Student studentIdToChoosenSubCategories,
+	public StudentChoosenSubjectSubCategory(Student studentIdToChoosenSubCategories,
 			SubjectSubCategory subjectSubCategoryIdToChoosenSubCategories, Integer priorityLevel) {
 		super();
-		this.id = id;
 		this.studentIdToChoosenSubCategories = studentIdToChoosenSubCategories;
 		this.subjectSubCategoryIdToChoosenSubCategories = subjectSubCategoryIdToChoosenSubCategories;
 		this.priorityLevel = priorityLevel;

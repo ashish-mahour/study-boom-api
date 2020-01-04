@@ -22,7 +22,6 @@ public class Student {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@JsonIgnore
 	private Long id;
 
 	@JoinColumn(name = "user_id")
@@ -51,8 +50,8 @@ public class Student {
 	@OneToMany(fetch = FetchType.LAZY, targetEntity = TestSeriesRatings.class, mappedBy = "ratedByStudent")
 	private List<TestSeriesRatings> ratedByStudent;
 
-	@OneToMany(fetch = FetchType.LAZY, targetEntity = StudentChoosenSubjectSubCategory.class, mappedBy = "subjectSubCategoryIdToChoosenSubCategories")
-	private List<StudentChoosenSubjectSubCategory> subjectSubCategoryIdToChoosenSubCategories;
+	@OneToMany(fetch = FetchType.LAZY, targetEntity = StudentChoosenSubjectSubCategory.class, mappedBy = "studentIdToChoosenSubCategories")
+	private List<StudentChoosenSubjectSubCategory> studentIdToChoosenSubCategories;
 
 	@OneToMany(fetch = FetchType.LAZY, targetEntity = StudentPerfromedTest.class, mappedBy = "performendByStudent")
 	private List<StudentPerfromedTest> testSeriesPerformendByStudent;
@@ -145,13 +144,13 @@ public class Student {
 		this.ratedByStudent = ratedByStudent;
 	}
 
-	public List<StudentChoosenSubjectSubCategory> getSubjectSubCategoryIdToChoosenSubCategories() {
-		return subjectSubCategoryIdToChoosenSubCategories;
+	public List<StudentChoosenSubjectSubCategory> getStudentIdToChoosenSubCategories() {
+		return studentIdToChoosenSubCategories;
 	}
 
-	public void setSubjectSubCategoryIdToChoosenSubCategories(
-			List<StudentChoosenSubjectSubCategory> subjectSubCategoryIdToChoosenSubCategories) {
-		this.subjectSubCategoryIdToChoosenSubCategories = subjectSubCategoryIdToChoosenSubCategories;
+	public void setStudentIdToChoosenSubCategories(
+			List<StudentChoosenSubjectSubCategory> studentIdToChoosenSubCategories) {
+		this.studentIdToChoosenSubCategories = studentIdToChoosenSubCategories;
 	}
 
 	public List<StudentPerfromedTest> getTestSeriesPerformendByStudent() {
