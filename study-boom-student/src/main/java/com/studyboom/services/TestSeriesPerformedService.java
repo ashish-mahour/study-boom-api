@@ -60,7 +60,7 @@ public class TestSeriesPerformedService implements TestSeriesPerformedResource {
 					.getStudentIdToChoosenSubCategories();
 
 			if (studentChoosenSubjectSubCategories.size() == 0)
-				return new ResponseEntity<List<TestSeries>>(HttpStatus.BAD_REQUEST);
+				return new ResponseEntity<List<TestSeries>>(new ArrayList<>(), HttpStatus.ACCEPTED);
 
 			List<SubjectSubCategory> studentChoosedSubCategories = new ArrayList<SubjectSubCategory>();
 			for (StudentChoosenSubjectSubCategory studentChoosenSubjectSubCategory : studentChoosenSubjectSubCategories)
