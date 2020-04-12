@@ -5,14 +5,14 @@ public class RequestsDetailsDTO {
 	private Long userId;
 	private Long requestId;
 	private String requestText;
-	private String processed;
+	private Boolean processed;
 	private String status;
 
 	public RequestsDetailsDTO() {
 
 	}
 
-	public RequestsDetailsDTO(Long userId, String requestText, String processed, String status) {
+	public RequestsDetailsDTO(Long userId, String requestText, Boolean processed, String status) {
 		super();
 		this.userId = userId;
 		this.requestText = requestText;
@@ -44,11 +44,11 @@ public class RequestsDetailsDTO {
 		this.requestText = requestText;
 	}
 
-	public String getProcessed() {
+	public Boolean getProcessed() {
 		return processed;
 	}
 
-	public void setProcessed(String processed) {
+	public void setProcessed(Boolean processed) {
 		this.processed = processed;
 	}
 

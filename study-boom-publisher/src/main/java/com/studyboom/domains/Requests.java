@@ -31,7 +31,7 @@ public class Requests {
 	private String requestText;
 
 	@Column(name = "processed", nullable = false)
-	private String processed;
+	private Boolean processed;
 
 	@Column(name = "status", nullable = false)
 	private String status;
@@ -46,7 +46,7 @@ public class Requests {
 		super();
 	}
 
-	public Requests(Users userIdToRequests, String requestText, String processed, String status,
+	public Requests(Users userIdToRequests, String requestText, Boolean processed, String status,
 			LocalDateTime lastModified, LocalDateTime dateCreated) {
 		super();
 		this.userIdToRequests = userIdToRequests;
@@ -81,11 +81,11 @@ public class Requests {
 		this.requestText = requestText;
 	}
 
-	public String getProcessed() {
+	public Boolean getProcessed() {
 		return processed;
 	}
 
-	public void setProcessed(String processed) {
+	public void setProcessed(Boolean processed) {
 		this.processed = processed;
 	}
 

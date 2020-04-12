@@ -58,7 +58,7 @@ public class RequestsService implements RequestResources {
 						HttpStatus.BAD_REQUEST);
 
 			requestRepository.save(new Requests(usersOptional.get(), requestsDetailsDTO.getRequestText(),
-					Constants.REQUEST_STATUS.NOT_STARTED.name(), Constants.REQUEST_STATUS.NOT_STARTED.name(),
+					requestsDetailsDTO.getProcessed(), Constants.REQUEST_STATUS.NOT_STARTED.name(),
 					LocalDateTime.now(), LocalDateTime.now()));
 
 			return new ResponseEntity<RequestStatusDTO>(

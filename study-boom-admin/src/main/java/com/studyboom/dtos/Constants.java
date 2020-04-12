@@ -10,7 +10,7 @@ public interface Constants {
 	}
 
 	enum REQUEST_STATUS {
-		NOT_STARTED, PROCESSING, SUCCESS, FAILED
+		NOT_STARTED, ACCEPTED, NOT_ACCEPTED
 	}
 
 }
