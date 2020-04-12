@@ -7,7 +7,6 @@
 		<groupId>com.studyboom</groupId>
 		<artifactId>study-boom-api</artifactId>
 		<version>2.1.0.RELEASE</version>
-		<relativePath />
 	</parent>
 	<artifactId>study-boom-student</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
