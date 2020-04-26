@@ -13,8 +13,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 @Entity
 @Table(name = "student_performed_test")
 public class StudentPerfromedTest {
@@ -29,7 +27,6 @@ public class StudentPerfromedTest {
 
 	@JoinColumn(name = "test_performed")
 	@OneToOne(fetch = FetchType.LAZY)
-	@JsonIgnore
 	private TestSeries testSeriesPerformed;
 
 	@Column(name = "attempted", nullable = false)

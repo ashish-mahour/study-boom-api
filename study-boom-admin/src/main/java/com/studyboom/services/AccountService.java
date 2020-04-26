@@ -174,8 +174,7 @@ public class AccountService implements AccountResources {
 	@Override
 	public ResponseEntity<List<Users>> getUsers(int pageNo, int limit) {
 		try {
-			return new ResponseEntity<>(userRepository.findByTypeOrType(Constants.USER_TYPE.PUBLISHER.name(),
-					Constants.USER_TYPE.STUDENT.name(), PageRequest.of(pageNo, limit, Direction.ASC, "fullName")),
+			return new ResponseEntity<>(userRepository.findByTypeNotLike(Constants.USER_TYPE.ADMIN.name(), PageRequest.of(pageNo, limit, Direction.ASC, "fullName")),
 					HttpStatus.OK);
 		} catch (Exception e) {
 			LOG.error("Error while getting users : " + e.getLocalizedMessage(), e);

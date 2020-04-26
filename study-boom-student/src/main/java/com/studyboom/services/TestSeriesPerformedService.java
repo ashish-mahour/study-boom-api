@@ -88,7 +88,7 @@ public class TestSeriesPerformedService implements TestSeriesPerformedResource {
 
 			Student student = studentOptional.get();
 			return new ResponseEntity<List<StudentPerfromedTest>>(
-					studentPerformedTestRepository.findByPerformendByStudent(student), HttpStatus.OK);
+					studentPerformedTestRepository.findByPerformendByStudent(student, PageRequest.of(pageNo, limit, Direction.DESC, "performedAt")), HttpStatus.OK);
 		} catch (Exception e) {
 			LOG.error("Error while getting test series by ID : " + e.getLocalizedMessage(), e);
 			return new ResponseEntity<List<StudentPerfromedTest>>(HttpStatus.INTERNAL_SERVER_ERROR);

@@ -15,6 +15,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "test_series")
 public class TestSeries {
@@ -62,6 +64,7 @@ public class TestSeries {
 	private List<TestSeriesRatings> testSeriesIdToRatings;
 
 	@OneToMany(fetch = FetchType.LAZY, targetEntity = StudentPerfromedTest.class, mappedBy = "testSeriesPerformed")
+	@JsonIgnore
 	private List<StudentPerfromedTest> testSeriesPerformedByStudents;
 
 	public TestSeries() {
