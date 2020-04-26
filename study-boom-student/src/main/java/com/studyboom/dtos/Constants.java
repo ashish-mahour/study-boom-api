@@ -14,7 +14,7 @@ public interface Constants {
 	}
 	
 	String[] reportsColumns = new String[] {
-		"Test Series Name", "Attemped (%)", "Total Marks", "Marks Obtained"
+		"Test Series Name", "Attemped (%)", "Total Marks", "Marks Obtained (%)"
 	};
 	
 	int reportDefaultColumnSize = 20;

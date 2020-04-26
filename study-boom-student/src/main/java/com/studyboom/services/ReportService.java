@@ -115,7 +115,8 @@ public class ReportService implements ReportResources {
 				dataCell3.setCellStyle(data);
 
 				XSSFCell dataCell4 = dataRow.createCell(3);
-				dataCell4.setCellValue(studentPerfromedTest.getTotalScore());
+				double marksPercentage = (studentPerfromedTest.getTotalScore() / studentPerfromedTest.getTestSeriesPerformed().getTotalMarks()) * 100;
+				dataCell4.setCellValue(marksPercentage);
 				dataCell4.setCellStyle(data);
 
 				rowNum++;
