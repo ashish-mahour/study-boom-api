@@ -35,7 +35,7 @@ public class RequestsService implements RequestResources {
 	public ResponseEntity<List<Requests>> getRequests(int pageNo, int limit) {
 		try {
 			return new ResponseEntity<List<Requests>>(
-					requestRepository.findAll(PageRequest.of(pageNo, limit, Direction.ASC, "dateCreated")).getContent(),
+					requestRepository.findAll(PageRequest.of(pageNo, limit, Direction.DESC, "lastModified")).getContent(),
 					HttpStatus.OK);
 		} catch (Exception e) {
 			LOG.error("Error while getting requests : " + e.getLocalizedMessage(), e);

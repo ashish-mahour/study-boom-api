@@ -41,7 +41,7 @@ public class RequestsService implements RequestResources {
 				return new ResponseEntity<List<Requests>>(HttpStatus.BAD_REQUEST);
 
 			return new ResponseEntity<List<Requests>>(requestRepository.findByUserIdToRequests(usersOptional.get(),
-					PageRequest.of(pageNo, limit, Direction.ASC, "dateCreated")), HttpStatus.OK);
+					PageRequest.of(pageNo, limit, Direction.DESC, "lastModified")), HttpStatus.OK);
 		} catch (Exception e) {
 			LOG.error("Error while getting requests : " + e.getLocalizedMessage(), e);
 			return new ResponseEntity<List<Requests>>(HttpStatus.INTERNAL_SERVER_ERROR);
