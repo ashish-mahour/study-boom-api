@@ -3,6 +3,7 @@ package com.studyboom.services;
 import java.io.ByteArrayOutputStream;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,6 +24,7 @@ import org.springframework.stereotype.Service;
 import com.studyboom.domains.Student;
 import com.studyboom.domains.StudentPerfromedTest;
 import com.studyboom.dtos.Constants;
+import com.studyboom.dtos.TestSeriesReportDTO;
 import com.studyboom.repositories.StudentRepository;
 import com.studyboom.resources.ReportResources;
 
@@ -36,7 +38,7 @@ public class ReportService implements ReportResources {
 	private StudentRepository studentRepository;
 
 	@Override
-	public ResponseEntity<byte[]> getReports(Long studentId) {
+	public ResponseEntity<?> genrateReports(Long studentId) {
 
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 
@@ -45,13 +47,13 @@ public class ReportService implements ReportResources {
 			Optional<Student> studentOptional = studentRepository.findById(studentId);
 
 			if (!studentOptional.isPresent())
-				return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+				return new ResponseEntity<>("No Publisher Found!!", HttpStatus.BAD_REQUEST);
 
 			Student student = studentOptional.get();
 			List<StudentPerfromedTest> testSeriesPerformedByStudent = student.getTestSeriesPerformendByStudent();
 
 			if (testSeriesPerformedByStudent.size() == 0)
-				return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+				return new ResponseEntity<>("No Test Performed!!", HttpStatus.BAD_REQUEST);
 
 			XSSFWorkbook xssfWorkbook = new XSSFWorkbook();
 			XSSFSheet xssfSheet = xssfWorkbook.cloneSheet(0);
@@ -105,8 +107,8 @@ public class ReportService implements ReportResources {
 				dataCell1.setCellStyle(data);
 
 				XSSFCell dataCell2 = dataRow.createCell(1);
-				double attempedPercentage = (studentPerfromedTest.getAttemped() / studentPerfromedTest.getAttemped()
-						+ studentPerfromedTest.getUnattemped()) * 100;
+				double attempedPercentage = (studentPerfromedTest.getAttemped()
+						/ studentPerfromedTest.getTestSeriesPerformed().getTotalQuestions()) * 100;
 				dataCell2.setCellValue(attempedPercentage);
 				dataCell2.setCellStyle(data);
 
@@ -115,7 +117,8 @@ public class ReportService implements ReportResources {
 				dataCell3.setCellStyle(data);
 
 				XSSFCell dataCell4 = dataRow.createCell(3);
-				double marksPercentage = (studentPerfromedTest.getTotalScore() / studentPerfromedTest.getTestSeriesPerformed().getTotalMarks()) * 100;
+				double marksPercentage = (studentPerfromedTest.getTotalScore()
+						/ studentPerfromedTest.getTestSeriesPerformed().getTotalMarks()) * 100;
 				dataCell4.setCellValue(marksPercentage);
 				dataCell4.setCellStyle(data);
 
@@ -134,6 +137,40 @@ public class ReportService implements ReportResources {
 		} catch (Exception e) {
 			LOG.error("Error in creating Excel file for Publisher Report : " + e.getLocalizedMessage(), e);
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+
+	@Override
+	public ResponseEntity<?> getReports(Long studentId) {
+		try {
+			Optional<Student> studentOptional = studentRepository.findById(studentId);
+
+			if (!studentOptional.isPresent())
+				return new ResponseEntity<>("No Publisher Found!!", HttpStatus.BAD_REQUEST);
+
+			Student student = studentOptional.get();
+			List<StudentPerfromedTest> testSeriesPerformedByStudent = student.getTestSeriesPerformendByStudent();
+
+			List<TestSeriesReportDTO> testSeriesReportDTOs = new ArrayList<TestSeriesReportDTO>();
+			if (testSeriesPerformedByStudent.size() == 0)
+				return new ResponseEntity<>(testSeriesReportDTOs, HttpStatus.OK);
+
+			for (StudentPerfromedTest studentPerfromedTest : testSeriesPerformedByStudent) {
+
+				double marksPercentage = (studentPerfromedTest.getTotalScore()
+						/ studentPerfromedTest.getTestSeriesPerformed().getTotalMarks()) * 100;
+
+				double attempedPercentage = (studentPerfromedTest.getAttemped()
+						/ studentPerfromedTest.getTestSeriesPerformed().getTotalQuestions()) * 100;
+
+				testSeriesReportDTOs.add(new TestSeriesReportDTO(
+						studentPerfromedTest.getTestSeriesPerformed().getName(), attempedPercentage,
+						studentPerfromedTest.getTestSeriesPerformed().getTotalMarks(), marksPercentage));
+			}
+			return new ResponseEntity<>(testSeriesReportDTOs, HttpStatus.OK);
+		} catch (Exception e) {
+			LOG.error("Error in getting Test Series Report for Publisher : " + e.getLocalizedMessage(), e);
+			return new ResponseEntity<>(e.getLocalizedMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 

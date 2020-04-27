@@ -3,6 +3,7 @@ package com.studyboom.services;
 import java.io.ByteArrayOutputStream;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,7 +39,7 @@ public class ReportService implements ReportResources {
 	private PublisherRepository publisherRepository;
 
 	@Override
-	public ResponseEntity<byte[]> getReports(Long publisherId) {
+	public ResponseEntity<?> genrateReports(Long publisherId) {
 
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 
@@ -47,13 +48,13 @@ public class ReportService implements ReportResources {
 			Optional<Publisher> publisherOptional = publisherRepository.findById(publisherId);
 
 			if (!publisherOptional.isPresent())
-				return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+				return new ResponseEntity<>("No Publisher Found.", HttpStatus.BAD_REQUEST);
 
 			Publisher publisher = publisherOptional.get();
 			List<TestSeries> publisherUploadedTestSeries = publisher.getUploadedByPublisherTestSeries();
 
 			if (publisherUploadedTestSeries.size() == 0)
-				return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+				return new ResponseEntity<>("No Test Series Uploaded.", HttpStatus.BAD_REQUEST);
 
 			XSSFWorkbook xssfWorkbook = new XSSFWorkbook();
 			XSSFSheet xssfSheet = xssfWorkbook.cloneSheet(0);
@@ -105,26 +106,21 @@ public class ReportService implements ReportResources {
 				if (testSeriesRatings.size() == 0)
 					continue;
 
-				TestSeriesReportDTO testSeriesReportDTO = new TestSeriesReportDTO();
-				testSeriesReportDTO.setTestSeriesName(testSeries.getName());
-
+				Integer totalRatings = null;
 				for (TestSeriesRatings testRatings : testSeriesRatings) {
-					if (testSeriesReportDTO.getOverAllRating() == null)
-						testSeriesReportDTO.setOverAllRating(testRatings.getOverallRatings());
+					if (totalRatings == null)
+						totalRatings = testRatings.getOverallRatings();
 					else
-						testSeriesReportDTO.setOverAllRating(
-								testSeriesReportDTO.getOverAllRating() + testRatings.getOverallRatings());
-
+						totalRatings = totalRatings + testRatings.getOverallRatings();
 				}
 
 				XSSFRow dataRow = xssfSheet.createRow(rowNum);
-
 				XSSFCell dataCell1 = dataRow.createCell(0);
-				dataCell1.setCellValue(testSeriesReportDTO.getTestSeriesName());
+				dataCell1.setCellValue(testSeries.getName());
 				dataCell1.setCellStyle(data);
 
 				XSSFCell dataCell2 = dataRow.createCell(1);
-				dataCell2.setCellValue(testSeriesReportDTO.getOverAllRating() / testSeriesRatings.size());
+				dataCell2.setCellValue((totalRatings == null ? 0 : totalRatings) / testSeriesRatings.size());
 				dataCell2.setCellStyle(data);
 
 				rowNum++;
@@ -142,6 +138,47 @@ public class ReportService implements ReportResources {
 		} catch (Exception e) {
 			LOG.error("Error in creating Excel file for Publisher Report : " + e.getLocalizedMessage(), e);
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+
+	@Override
+	public ResponseEntity<?> getReports(Long publisherId) {
+		try {
+			Optional<Publisher> publisherOptional = publisherRepository.findById(publisherId);
+
+			if (!publisherOptional.isPresent())
+				return new ResponseEntity<>("No Publisher Found.", HttpStatus.BAD_REQUEST);
+
+			Publisher publisher = publisherOptional.get();
+			List<TestSeries> publisherUploadedTestSeries = publisher.getUploadedByPublisherTestSeries();
+
+			List<TestSeriesReportDTO> testSeriesReportDTOs = new ArrayList<TestSeriesReportDTO>();
+
+			if (publisherUploadedTestSeries.size() == 0)
+				return new ResponseEntity<>(testSeriesReportDTOs, HttpStatus.OK);
+
+			for (TestSeries testSeries : publisherUploadedTestSeries) {
+				List<TestSeriesRatings> testSeriesRatings = testSeries.getTestSeriesIdToRatings();
+
+				if (testSeriesRatings.size() == 0)
+					continue;
+
+				Integer totalRatings = null;
+				for (TestSeriesRatings testRatings : testSeriesRatings) {
+					if (totalRatings == null)
+						totalRatings = testRatings.getOverallRatings();
+					else
+						totalRatings = totalRatings + testRatings.getOverallRatings();
+				}
+
+				testSeriesReportDTOs.add(new TestSeriesReportDTO(testSeries.getName(),
+						(totalRatings == null ? 0 : totalRatings) / testSeriesRatings.size()));
+			}
+
+			return new ResponseEntity<>(testSeriesReportDTOs, HttpStatus.OK);
+		} catch (Exception e) {
+			LOG.error("Error in getting Test Series Report for Student : " + e.getLocalizedMessage(), e);
+			return new ResponseEntity<>(e.getLocalizedMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 

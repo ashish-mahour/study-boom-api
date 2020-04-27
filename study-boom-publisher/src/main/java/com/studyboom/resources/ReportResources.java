@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.RestController;
 public interface ReportResources {
 
 	@GetMapping(path = "/generate/reports")
-	public ResponseEntity<byte[]> getReports(@RequestParam("publisherId") Long publisherId);
+	public ResponseEntity<?> genrateReports(@RequestParam("publisherId") Long publisherId);
+	
+	@GetMapping(path = "/get/reports")
+	public ResponseEntity<?> getReports(@RequestParam("publisherId") Long publisherId);
 	
 }
