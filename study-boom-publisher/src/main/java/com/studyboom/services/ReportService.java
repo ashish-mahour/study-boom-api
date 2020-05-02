@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.apache.log4j.Logger;
+import org.apache.poi.ss.usermodel.FillPatternType;
 import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
@@ -57,7 +58,7 @@ public class ReportService implements ReportResources {
 				return new ResponseEntity<>("No Test Series Uploaded.", HttpStatus.BAD_REQUEST);
 
 			XSSFWorkbook xssfWorkbook = new XSSFWorkbook();
-			XSSFSheet xssfSheet = xssfWorkbook.cloneSheet(0);
+			XSSFSheet xssfSheet = xssfWorkbook.createSheet("Publisher Report.");
 
 			int rowNum = 0;
 
@@ -68,11 +69,12 @@ public class ReportService implements ReportResources {
 			XSSFCellStyle header = xssfWorkbook.createCellStyle();
 			XSSFFont headerFont = xssfWorkbook.createFont();
 			headerFont.setBold(true);
-			headerFont.setFontHeight((short) 16);
+			headerFont.setFontHeightInPoints((short) 14);
+			headerFont.setColor(IndexedColors.WHITE.getIndex());
 			header.setFont(headerFont);
 			header.setWrapText(true);
+			header.setFillPattern(FillPatternType.SOLID_FOREGROUND);
 			header.setFillBackgroundColor(IndexedColors.BLACK.getIndex());
-			header.setFillForegroundColor(IndexedColors.WHITE.getIndex());
 
 			/*
 			 * DATA STYLE
@@ -80,11 +82,9 @@ public class ReportService implements ReportResources {
 
 			XSSFCellStyle data = xssfWorkbook.createCellStyle();
 			XSSFFont dataFont = xssfWorkbook.createFont();
-			dataFont.setFontHeight((short) 14);
-			data.setFont(headerFont);
+			dataFont.setFontHeightInPoints((short) 12);
+			data.setFont(dataFont);
 			data.setWrapText(true);
-			data.setFillBackgroundColor(IndexedColors.WHITE.getIndex());
-			data.setFillForegroundColor(IndexedColors.BLACK.getIndex());
 
 			/*
 			 * HEADER ROW
@@ -95,7 +95,7 @@ public class ReportService implements ReportResources {
 				XSSFCell cell = row.createCell(i);
 				cell.setCellValue(Constants.reportsColumns[i]);
 				cell.setCellStyle(header);
-				xssfSheet.setColumnWidth(i, Constants.reportDefaultColumnSize);
+				xssfSheet.autoSizeColumn(i);
 			}
 			rowNum++;
 
@@ -131,8 +131,10 @@ public class ReportService implements ReportResources {
 
 			HttpHeaders httpHeaders = new HttpHeaders();
 			httpHeaders.set(HttpHeaders.CONTENT_DISPOSITION,
-					"attachment; filename: \"Publisher-Report-" + LocalDateTime.now().format(DATE_TIME_FORMAT) + "\"");
-
+					"attachment; filename: Publisher-Report-" + LocalDateTime.now().format(DATE_TIME_FORMAT) + ".xlsx");
+			httpHeaders.set("FILE_NAME", "Publisher-Report-" + LocalDateTime.now().format(DATE_TIME_FORMAT) + ".xlsx");
+			httpHeaders.set(HttpHeaders.ACCESS_CONTROL_EXPOSE_HEADERS, HttpHeaders.CONTENT_DISPOSITION + ", FILE_NAME");
+			
 			return new ResponseEntity<byte[]>(outputStream.toByteArray(), httpHeaders, HttpStatus.OK);
 
 		} catch (Exception e) {

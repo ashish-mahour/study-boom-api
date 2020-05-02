@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.apache.log4j.Logger;
+import org.apache.poi.ss.usermodel.FillPatternType;
 import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
@@ -18,6 +19,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -40,8 +42,6 @@ public class ReportService implements ReportResources {
 	@Override
 	public ResponseEntity<?> genrateReports(Long studentId) {
 
-		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-
 		try {
 
 			Optional<Student> studentOptional = studentRepository.findById(studentId);
@@ -56,7 +56,7 @@ public class ReportService implements ReportResources {
 				return new ResponseEntity<>("No Test Performed!!", HttpStatus.BAD_REQUEST);
 
 			XSSFWorkbook xssfWorkbook = new XSSFWorkbook();
-			XSSFSheet xssfSheet = xssfWorkbook.cloneSheet(0);
+			XSSFSheet xssfSheet = xssfWorkbook.createSheet("Student Report.");
 
 			int rowNum = 0;
 
@@ -67,11 +67,12 @@ public class ReportService implements ReportResources {
 			XSSFCellStyle header = xssfWorkbook.createCellStyle();
 			XSSFFont headerFont = xssfWorkbook.createFont();
 			headerFont.setBold(true);
-			headerFont.setFontHeight((short) 16);
+			headerFont.setFontHeightInPoints((short) 14);
+			headerFont.setColor(IndexedColors.WHITE.getIndex());
 			header.setFont(headerFont);
 			header.setWrapText(true);
+			header.setFillPattern(FillPatternType.SOLID_FOREGROUND);
 			header.setFillBackgroundColor(IndexedColors.BLACK.getIndex());
-			header.setFillForegroundColor(IndexedColors.WHITE.getIndex());
 
 			/*
 			 * DATA STYLE
@@ -79,11 +80,9 @@ public class ReportService implements ReportResources {
 
 			XSSFCellStyle data = xssfWorkbook.createCellStyle();
 			XSSFFont dataFont = xssfWorkbook.createFont();
-			dataFont.setFontHeight((short) 14);
-			data.setFont(headerFont);
+			dataFont.setFontHeightInPoints((short) 12);
+			data.setFont(dataFont);
 			data.setWrapText(true);
-			data.setFillBackgroundColor(IndexedColors.WHITE.getIndex());
-			data.setFillForegroundColor(IndexedColors.BLACK.getIndex());
 
 			/*
 			 * HEADER ROW
@@ -94,7 +93,7 @@ public class ReportService implements ReportResources {
 				XSSFCell cell = row.createCell(i);
 				cell.setCellValue(Constants.reportsColumns[i]);
 				cell.setCellStyle(header);
-				xssfSheet.setColumnWidth(i, Constants.reportDefaultColumnSize);
+				xssfSheet.autoSizeColumn(i);
 			}
 			rowNum++;
 
@@ -107,7 +106,7 @@ public class ReportService implements ReportResources {
 				dataCell1.setCellStyle(data);
 
 				XSSFCell dataCell2 = dataRow.createCell(1);
-				double attempedPercentage = (studentPerfromedTest.getAttemped()
+				double attempedPercentage = ((double) studentPerfromedTest.getAttemped()
 						/ studentPerfromedTest.getTestSeriesPerformed().getTotalQuestions()) * 100;
 				dataCell2.setCellValue(attempedPercentage);
 				dataCell2.setCellStyle(data);
@@ -117,7 +116,7 @@ public class ReportService implements ReportResources {
 				dataCell3.setCellStyle(data);
 
 				XSSFCell dataCell4 = dataRow.createCell(3);
-				double marksPercentage = (studentPerfromedTest.getTotalScore()
+				double marksPercentage = ((double) studentPerfromedTest.getTotalScore()
 						/ studentPerfromedTest.getTestSeriesPerformed().getTotalMarks()) * 100;
 				dataCell4.setCellValue(marksPercentage);
 				dataCell4.setCellStyle(data);
@@ -125,18 +124,21 @@ public class ReportService implements ReportResources {
 				rowNum++;
 			}
 
+			ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 			xssfWorkbook.write(outputStream);
 			xssfWorkbook.close();
-
 			HttpHeaders httpHeaders = new HttpHeaders();
+			httpHeaders.setContentType(
+					new MediaType("application", "vnd.openxmlformats-officedocument.spreadsheetml.sheet"));
 			httpHeaders.set(HttpHeaders.CONTENT_DISPOSITION,
-					"attachment; filename: \"Student-Report-" + LocalDateTime.now().format(DATE_TIME_FORMAT) + "\"");
-
-			return new ResponseEntity<byte[]>(outputStream.toByteArray(), httpHeaders, HttpStatus.OK);
-
+					"attachment; filename=Student-Report-" + LocalDateTime.now().format(DATE_TIME_FORMAT) + ".xlsx");
+			httpHeaders.set("FILE_NAME", "Student-Report-" + LocalDateTime.now().format(DATE_TIME_FORMAT) + ".xlsx");
+			httpHeaders.set(HttpHeaders.ACCESS_CONTROL_EXPOSE_HEADERS, HttpHeaders.CONTENT_DISPOSITION + ", FILE_NAME");
+			
+			return new ResponseEntity<>(outputStream.toByteArray(), httpHeaders, HttpStatus.OK);
 		} catch (Exception e) {
-			LOG.error("Error in creating Excel file for Publisher Report : " + e.getLocalizedMessage(), e);
-			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+			LOG.error("Error in creating Excel file for Student Report : " + e.getLocalizedMessage(), e);
+			return new ResponseEntity<>(e.getLocalizedMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -157,10 +159,9 @@ public class ReportService implements ReportResources {
 
 			for (StudentPerfromedTest studentPerfromedTest : testSeriesPerformedByStudent) {
 
-				double marksPercentage = (studentPerfromedTest.getTotalScore()
+				double marksPercentage = ((double) studentPerfromedTest.getTotalScore()
 						/ studentPerfromedTest.getTestSeriesPerformed().getTotalMarks()) * 100;
-
-				double attempedPercentage = (studentPerfromedTest.getAttemped()
+				double attempedPercentage = ((double) studentPerfromedTest.getAttemped()
 						/ studentPerfromedTest.getTestSeriesPerformed().getTotalQuestions()) * 100;
 
 				testSeriesReportDTOs.add(new TestSeriesReportDTO(
@@ -169,7 +170,7 @@ public class ReportService implements ReportResources {
 			}
 			return new ResponseEntity<>(testSeriesReportDTOs, HttpStatus.OK);
 		} catch (Exception e) {
-			LOG.error("Error in getting Test Series Report for Publisher : " + e.getLocalizedMessage(), e);
+			LOG.error("Error in getting Test Series Report for Student : " + e.getLocalizedMessage(), e);
 			return new ResponseEntity<>(e.getLocalizedMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
