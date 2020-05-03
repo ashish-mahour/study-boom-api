@@ -17,6 +17,8 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -27,6 +29,7 @@ import com.studyboom.domains.Student;
 import com.studyboom.domains.StudentPerfromedTest;
 import com.studyboom.dtos.Constants;
 import com.studyboom.dtos.TestSeriesReportDTO;
+import com.studyboom.repositories.StudentPerformedTestRepository;
 import com.studyboom.repositories.StudentRepository;
 import com.studyboom.resources.ReportResources;
 
@@ -38,6 +41,9 @@ public class ReportService implements ReportResources {
 
 	@Autowired
 	private StudentRepository studentRepository;
+	
+	@Autowired
+	private StudentPerformedTestRepository studentPerformedTestRepository;
 
 	@Override
 	public ResponseEntity<?> genrateReports(Long studentId) {
@@ -151,12 +157,12 @@ public class ReportService implements ReportResources {
 				return new ResponseEntity<>("No Publisher Found!!", HttpStatus.BAD_REQUEST);
 
 			Student student = studentOptional.get();
-			List<StudentPerfromedTest> testSeriesPerformedByStudent = student.getTestSeriesPerformendByStudent();
+			List<StudentPerfromedTest> testSeriesPerformedByStudent = studentPerformedTestRepository.findByPerformendByStudent(student, PageRequest.of(0, 20, Direction.DESC, "performedAt"));
 
 			List<TestSeriesReportDTO> testSeriesReportDTOs = new ArrayList<TestSeriesReportDTO>();
 			if (testSeriesPerformedByStudent.size() == 0)
 				return new ResponseEntity<>(testSeriesReportDTOs, HttpStatus.OK);
-
+			
 			for (StudentPerfromedTest studentPerfromedTest : testSeriesPerformedByStudent) {
 
 				double marksPercentage = ((double) studentPerfromedTest.getTotalScore()

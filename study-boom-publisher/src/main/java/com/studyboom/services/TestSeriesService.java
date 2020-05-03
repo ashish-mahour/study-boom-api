@@ -61,7 +61,7 @@ public class TestSeriesService implements TestSeriesResources {
 					testSeriesDetailsDTO.getTestSeriesName(), subjectSubCategotyOptional.get(),
 					testSeriesDetailsDTO.getTotalQuestions(), testSeriesDetailsDTO.getDurationMax(),
 					testSeriesDetailsDTO.getTotalMarks(), testSeriesDetailsDTO.getPassingMarks(),
-					testSeriesDetailsDTO.getPrice(), LocalDateTime.now(), LocalDateTime.now()));
+					testSeriesDetailsDTO.getPrice(), LocalDateTime.now(), LocalDateTime.now(), testSeriesDetailsDTO.getIsVisible()));
 
 			createQuestions(testSeries, subjectSubCategotyOptional.get(),
 					testSeriesDetailsDTO.getTestSeriesQuestions());

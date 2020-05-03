@@ -17,5 +17,7 @@ public interface Constants {
 		"Test Series Name", "Attemped (%)", "Total Marks", "Marks Obtained (%)"
 	};
 	
+	Boolean testSeriesVisible = true;
+	
 	int reportDefaultColumnSize = 20;
 }

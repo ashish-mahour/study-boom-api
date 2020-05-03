@@ -17,6 +17,8 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,6 +30,7 @@ import com.studyboom.domains.TestSeriesRatings;
 import com.studyboom.dtos.Constants;
 import com.studyboom.dtos.TestSeriesReportDTO;
 import com.studyboom.repositories.PublisherRepository;
+import com.studyboom.repositories.TestSeriesReposiroty;
 import com.studyboom.resources.ReportResources;
 
 @Service
@@ -38,6 +41,9 @@ public class ReportService implements ReportResources {
 
 	@Autowired
 	private PublisherRepository publisherRepository;
+	
+	@Autowired
+	private TestSeriesReposiroty testSeriesReposiroty;
 
 	@Override
 	public ResponseEntity<?> genrateReports(Long publisherId) {
@@ -152,7 +158,7 @@ public class ReportService implements ReportResources {
 				return new ResponseEntity<>("No Publisher Found.", HttpStatus.BAD_REQUEST);
 
 			Publisher publisher = publisherOptional.get();
-			List<TestSeries> publisherUploadedTestSeries = publisher.getUploadedByPublisherTestSeries();
+			List<TestSeries> publisherUploadedTestSeries = testSeriesReposiroty.findByUploadedByPublisher(publisher, PageRequest.of(0, 20, Direction.DESC, "createdDate"));
 
 			List<TestSeriesReportDTO> testSeriesReportDTOs = new ArrayList<TestSeriesReportDTO>();
 

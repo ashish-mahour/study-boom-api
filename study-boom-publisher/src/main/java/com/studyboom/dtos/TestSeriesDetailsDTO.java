@@ -15,23 +15,25 @@ public class TestSeriesDetailsDTO {
 	private Integer passingMarks;
 	private BigDecimal price;
 	private Long publisherId;
+	private Boolean isVisible;
 	private List<TestSeriesQuestionDTO> testSeriesQuestions;
 
 	public TestSeriesDetailsDTO(Long testSeriesId, String testSeriesName, Long categoryId, Long subCategoryId,
-			Integer totalMarks, Integer durationMax, Integer passingMarks, BigDecimal price, Long publisherId,
-			Integer totalQuestions, List<TestSeriesQuestionDTO> testSeriesQuestions) {
+			Integer totalQuestions, Integer totalMarks, Integer durationMax, Integer passingMarks, BigDecimal price,
+			Long publisherId, Boolean isVisible, List<TestSeriesQuestionDTO> testSeriesQuestions) {
 		super();
 		this.testSeriesId = testSeriesId;
 		this.testSeriesName = testSeriesName;
 		this.categoryId = categoryId;
 		this.subCategoryId = subCategoryId;
+		this.totalQuestions = totalQuestions;
 		this.totalMarks = totalMarks;
 		this.durationMax = durationMax;
 		this.passingMarks = passingMarks;
 		this.price = price;
 		this.publisherId = publisherId;
+		this.isVisible = isVisible;
 		this.testSeriesQuestions = testSeriesQuestions;
-		this.totalQuestions = totalQuestions;
 	}
 
 	public TestSeriesDetailsDTO() {
@@ -124,6 +126,14 @@ public class TestSeriesDetailsDTO {
 
 	public void setTotalQuestions(Integer totalQuestions) {
 		this.totalQuestions = totalQuestions;
+	}
+
+	public Boolean getIsVisible() {
+		return isVisible;
+	}
+
+	public void setIsVisible(Boolean isVisible) {
+		this.isVisible = isVisible;
 	}
 
 	@Override

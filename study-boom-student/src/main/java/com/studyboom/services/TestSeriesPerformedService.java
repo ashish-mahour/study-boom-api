@@ -19,6 +19,7 @@ import com.studyboom.domains.StudentPerfromedTest;
 import com.studyboom.domains.SubjectSubCategory;
 import com.studyboom.domains.TestSeries;
 import com.studyboom.domains.TestSeriesData;
+import com.studyboom.dtos.Constants;
 import com.studyboom.dtos.StudentChoosedAnswersDTO;
 import com.studyboom.dtos.StudentPerformedTestDTO;
 import com.studyboom.dtos.TestSeriesPerformedStatusDTO;
@@ -67,7 +68,7 @@ public class TestSeriesPerformedService implements TestSeriesPerformedResource {
 				studentChoosedSubCategories
 						.add(studentChoosenSubjectSubCategory.getSubjectSubCategoryIdToChoosenSubCategories());
 
-			testSeries = testSeriesReposiroty.findBySubjectSubCategoryIdToTestSeriesIn(studentChoosedSubCategories,
+			testSeries = testSeriesReposiroty.findByIsVisibleAndSubjectSubCategoryIdToTestSeriesIn(Constants.testSeriesVisible,studentChoosedSubCategories,
 					PageRequest.of(pageNo, limit, Direction.ASC, "name"));
 
 			return new ResponseEntity<List<TestSeries>>(testSeries, HttpStatus.OK);

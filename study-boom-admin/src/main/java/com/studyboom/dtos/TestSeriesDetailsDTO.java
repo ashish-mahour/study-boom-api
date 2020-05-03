@@ -9,24 +9,30 @@ public class TestSeriesDetailsDTO {
 	private String testSeriesName;
 	private Long categoryId;
 	private Long subCategoryId;
+	private Integer totalQuestions;
 	private Integer totalMarks;
 	private Integer durationMax;
 	private Integer passingMarks;
 	private BigDecimal price;
+	private Long adminId;
+	private Boolean isVisible;
 	private List<TestSeriesQuestionDTO> testSeriesQuestions;
 
 	public TestSeriesDetailsDTO(Long testSeriesId, String testSeriesName, Long categoryId, Long subCategoryId,
-			Integer totalMarks, Integer durationMax, Integer passingMarks, BigDecimal price,
-			List<TestSeriesQuestionDTO> testSeriesQuestions) {
+			Integer totalQuestions, Integer totalMarks, Integer durationMax, Integer passingMarks, BigDecimal price,
+			Long adminId, Boolean isVisible, List<TestSeriesQuestionDTO> testSeriesQuestions) {
 		super();
 		this.testSeriesId = testSeriesId;
 		this.testSeriesName = testSeriesName;
 		this.categoryId = categoryId;
 		this.subCategoryId = subCategoryId;
+		this.totalQuestions = totalQuestions;
 		this.totalMarks = totalMarks;
 		this.durationMax = durationMax;
 		this.passingMarks = passingMarks;
 		this.price = price;
+		this.adminId = adminId;
+		this.isVisible = isVisible;
 		this.testSeriesQuestions = testSeriesQuestions;
 	}
 
@@ -106,11 +112,36 @@ public class TestSeriesDetailsDTO {
 		this.testSeriesQuestions = testSeriesQuestions;
 	}
 
+	public Long getAdminId() {
+		return adminId;
+	}
+
+	public void setAdminId(Long adminId) {
+		this.adminId = adminId;
+	}
+
+	public Integer getTotalQuestions() {
+		return totalQuestions;
+	}
+
+	public void setTotalQuestions(Integer totalQuestions) {
+		this.totalQuestions = totalQuestions;
+	}
+
+	public Boolean getIsVisible() {
+		return isVisible;
+	}
+
+	public void setIsVisible(Boolean isVisible) {
+		this.isVisible = isVisible;
+	}
+
 	@Override
 	public String toString() {
 		return "TestSeriesDetailsDTO [testSeriesId=" + testSeriesId + ", testSeriesName=" + testSeriesName
-				+ ", categoryId=" + categoryId + ", subCategoryId=" + subCategoryId + ", totalMarks=" + totalMarks
-				+ ", durationMax=" + durationMax + ", passingMarks=" + passingMarks + ", price=" + price
+				+ ", categoryId=" + categoryId + ", subCategoryId=" + subCategoryId + ", totalQuestions="
+				+ totalQuestions + ", totalMarks=" + totalMarks + ", durationMax=" + durationMax + ", passingMarks="
+				+ passingMarks + ", price=" + price + ", adminId=" + adminId + ", isVisible=" + isVisible
 				+ ", testSeriesQuestions=" + testSeriesQuestions + "]";
 	}
 

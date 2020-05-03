@@ -18,6 +18,6 @@ public interface TestSeriesReposiroty extends JpaRepository<TestSeries, Long> {
 
 	public List<TestSeries> findByUploadedByPublisher(Publisher publisher, Pageable pageable);
 
-	public List<TestSeries> findBySubjectSubCategoryIdToTestSeriesIn(List<SubjectSubCategory> subjectSubCategories,
+	public List<TestSeries> findByIsVisibleAndSubjectSubCategoryIdToTestSeriesIn(Boolean isVisible, List<SubjectSubCategory> subjectSubCategories,
 			Pageable pageable);
 }

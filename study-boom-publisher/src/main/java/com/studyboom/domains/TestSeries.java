@@ -57,6 +57,9 @@ public class TestSeries {
 	@Column(name = "modified_date", nullable = false)
 	private LocalDateTime modifiedDate;
 
+	@Column(name = "is_visible", nullable = false)
+	private Boolean isVisible;
+
 	@OneToMany(fetch = FetchType.LAZY, targetEntity = TestSeriesData.class, mappedBy = "testSeriesIdToTestSeriesData")
 	private List<TestSeriesData> testSeriesIdToTestSeriesData;
 
@@ -73,7 +76,7 @@ public class TestSeries {
 
 	public TestSeries(Publisher uploadedByPublisher, String name, SubjectSubCategory subjectSubCategoryIdToTestSeries,
 			Integer totalQuestions, Integer durationMin, Integer totalMarks, Integer passingMarks, BigDecimal price,
-			LocalDateTime createdDate, LocalDateTime modifiedDate) {
+			LocalDateTime createdDate, LocalDateTime modifiedDate, Boolean isVisible) {
 		super();
 		this.uploadedByPublisher = uploadedByPublisher;
 		this.name = name;
@@ -85,6 +88,7 @@ public class TestSeries {
 		this.price = price;
 		this.createdDate = createdDate;
 		this.modifiedDate = modifiedDate;
+		this.isVisible = isVisible;
 	}
 
 	public Long getId() {
@@ -189,6 +193,14 @@ public class TestSeries {
 
 	public void setModifiedDate(LocalDateTime modifiedDate) {
 		this.modifiedDate = modifiedDate;
+	}
+
+	public Boolean getIsVisible() {
+		return isVisible;
+	}
+
+	public void setIsVisible(Boolean isVisible) {
+		this.isVisible = isVisible;
 	}
 
 	public List<StudentPerfromedTest> getTestSeriesPerformedByStudents() {
